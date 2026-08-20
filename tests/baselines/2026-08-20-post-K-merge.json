@@ -1,0 +1,226 @@
+{
+  "label": "post-K-merge",
+  "captured_at": "2026-08-20T14:44:34.060124+00:00",
+  "git_commit": "a1aa1b9",
+  "k": 2,
+  "strict": false,
+  "models": [
+    "claude-opus-5"
+  ],
+  "fixtures": [
+    "fx_c_human",
+    "fx_guard_overedit"
+  ],
+  "signal_names": [
+    "conclusion_pivot_count",
+    "safe_balance_count",
+    "double_passive_count",
+    "by_passive_count",
+    "have_make_literal_count",
+    "double_particle_count"
+  ],
+  "caveat": "이 스냅샷은 워터마킹 '이전' 상태를 남겨 두기 위한 것이다. Sonnet 5(2026-06-30)·Opus 5(2026-07-24)는 워터마킹 기준일(2026-08-02) 이전 출시라 촬영 시점에는 워터마크가 없었을 가능성이 높다. 다만 Anthropic 이 구형 모델에도 소급 적용 중이라고 밝혔으므로, 촬영 시점의 실제 적용 여부는 탐지 API 가 공개되기 전까지 확인할 수 없다. 따라서 이 스냅샷 하나로는 어떤 결론도 내릴 수 없고, 소급 적용 이후 재촬영본과 대조해야만 의미가 있다.",
+  "elapsed_total_s": 260.5,
+  "aggregates": {
+    "claude-opus-5": {
+      "fx_c_human": {
+        "n_ok": 2,
+        "n_fail": 0,
+        "change_rate": {
+          "mean": 0.0,
+          "stdev": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "n": 2
+        },
+        "len_ratio": {
+          "mean": 1.0,
+          "stdev": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "n": 2
+        },
+        "sig_conclusion_pivot_count_out": {
+          "mean": 0.0,
+          "stdev": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "n": 2
+        },
+        "sig_safe_balance_count_out": {
+          "mean": 0.0,
+          "stdev": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "n": 2
+        },
+        "protected_ok_rate": 1.0,
+        "register_preserved_rate": 1.0
+      },
+      "fx_guard_overedit": {
+        "n_ok": 2,
+        "n_fail": 0,
+        "change_rate": {
+          "mean": 0.6306,
+          "stdev": 0.1068,
+          "min": 0.5551,
+          "max": 0.7061,
+          "n": 2
+        },
+        "len_ratio": {
+          "mean": 0.6721,
+          "stdev": 0.1974,
+          "min": 0.5325,
+          "max": 0.8117,
+          "n": 2
+        },
+        "sig_conclusion_pivot_count_out": {
+          "mean": 0.0,
+          "stdev": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "n": 2
+        },
+        "sig_safe_balance_count_out": {
+          "mean": 0.0,
+          "stdev": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "n": 2
+        },
+        "protected_ok_rate": 1.0,
+        "register_preserved_rate": 1.0
+      }
+    }
+  },
+  "records": [
+    {
+      "model": "claude-opus-5",
+      "fixture": "fx_c_human",
+      "run": 0,
+      "ok": true,
+      "metrics": {
+        "change_rate": 0.0,
+        "len_src": 103,
+        "len_out": 103,
+        "len_ratio": 1.0,
+        "missing_protected": [],
+        "register_src": "반말",
+        "register_out": "반말",
+        "register_preserved": true,
+        "sig_conclusion_pivot_count_src": 0.0,
+        "sig_conclusion_pivot_count_out": 0.0,
+        "sig_safe_balance_count_src": 0.0,
+        "sig_safe_balance_count_out": 0.0,
+        "sig_double_passive_count_src": null,
+        "sig_double_passive_count_out": null,
+        "sig_by_passive_count_src": null,
+        "sig_by_passive_count_out": null,
+        "sig_have_make_literal_count_src": null,
+        "sig_have_make_literal_count_out": null,
+        "sig_double_particle_count_src": null,
+        "sig_double_particle_count_out": null,
+        "risk_out_risk_score": 0,
+        "risk_out_risk_band": "low"
+      },
+      "output": "아 오늘 회의 진짜 길었다. 세 시간을 떠들었는데 결론이 안 나서 좀 답답하더라고. 그냥 뭐가 문제인지부터 정하고 시작했으면 좋았을 텐데. 다음엔 영희님한테 미리 물어보고 들어가야겠다.",
+      "elapsed_s": 63.1
+    },
+    {
+      "model": "claude-opus-5",
+      "fixture": "fx_c_human",
+      "run": 1,
+      "ok": true,
+      "metrics": {
+        "change_rate": 0.0,
+        "len_src": 103,
+        "len_out": 103,
+        "len_ratio": 1.0,
+        "missing_protected": [],
+        "register_src": "반말",
+        "register_out": "반말",
+        "register_preserved": true,
+        "sig_conclusion_pivot_count_src": 0.0,
+        "sig_conclusion_pivot_count_out": 0.0,
+        "sig_safe_balance_count_src": 0.0,
+        "sig_safe_balance_count_out": 0.0,
+        "sig_double_passive_count_src": null,
+        "sig_double_passive_count_out": null,
+        "sig_by_passive_count_src": null,
+        "sig_by_passive_count_out": null,
+        "sig_have_make_literal_count_src": null,
+        "sig_have_make_literal_count_out": null,
+        "sig_double_particle_count_src": null,
+        "sig_double_particle_count_out": null,
+        "risk_out_risk_score": 0,
+        "risk_out_risk_band": "low"
+      },
+      "output": "아 오늘 회의 진짜 길었다. 세 시간을 떠들었는데 결론이 안 나서 좀 답답하더라고. 그냥 뭐가 문제인지부터 정하고 시작했으면 좋았을 텐데. 다음엔 영희님한테 미리 물어보고 들어가야겠다.",
+      "elapsed_s": 43.6
+    },
+    {
+      "model": "claude-opus-5",
+      "fixture": "fx_guard_overedit",
+      "run": 0,
+      "ok": true,
+      "metrics": {
+        "change_rate": 0.5551,
+        "len_src": 308,
+        "len_out": 164,
+        "len_ratio": 0.5325,
+        "missing_protected": [],
+        "register_src": "합니다",
+        "register_out": "합니다",
+        "register_preserved": true,
+        "sig_conclusion_pivot_count_src": 2.0,
+        "sig_conclusion_pivot_count_out": 0.0,
+        "sig_safe_balance_count_src": 0.0,
+        "sig_safe_balance_count_out": 0.0,
+        "sig_double_passive_count_src": null,
+        "sig_double_passive_count_out": null,
+        "sig_by_passive_count_src": null,
+        "sig_by_passive_count_out": null,
+        "sig_have_make_literal_count_src": null,
+        "sig_have_make_literal_count_out": null,
+        "sig_double_particle_count_src": null,
+        "sig_double_particle_count_out": null,
+        "risk_out_risk_score": 2,
+        "risk_out_risk_band": "low"
+      },
+      "output": "이 솔루션의 가치는 분명합니다. 다만 효율성을 극대화하고 확장성을 보장하며 지속가능성까지 담보하는 일이 함께 따라야 합니다. 이 접근은 기술을 개선하는 데서 그치지 않습니다. 패러다임 전환입니다. 이 전략은 데이터가 이끌고, 사용자가 검증하며, 시장이 요구합니다. 변화는 지금 시작해야 합니다.",
+      "elapsed_s": 90.2
+    },
+    {
+      "model": "claude-opus-5",
+      "fixture": "fx_guard_overedit",
+      "run": 1,
+      "ok": true,
+      "metrics": {
+        "change_rate": 0.7061,
+        "len_src": 308,
+        "len_out": 250,
+        "len_ratio": 0.8117,
+        "missing_protected": [],
+        "register_src": "합니다",
+        "register_out": "합니다",
+        "register_preserved": true,
+        "sig_conclusion_pivot_count_src": 2.0,
+        "sig_conclusion_pivot_count_out": 0.0,
+        "sig_safe_balance_count_src": 0.0,
+        "sig_safe_balance_count_out": 0.0,
+        "sig_double_passive_count_src": null,
+        "sig_double_passive_count_out": null,
+        "sig_by_passive_count_src": null,
+        "sig_by_passive_count_out": null,
+        "sig_have_make_literal_count_src": null,
+        "sig_have_make_literal_count_out": null,
+        "sig_double_particle_count_src": null,
+        "sig_double_particle_count_out": null,
+        "risk_out_risk_score": 2,
+        "risk_out_risk_band": "low"
+      },
+      "output": "이 솔루션이 내놓는 가치는 분명합니다. 다만 함께 따져볼 것이 세 가지 있습니다. 효율성을 어디까지 끌어올릴 수 있는지, 규모가 커져도 확장성이 받쳐주는지, 지속가능성을 담보할 수 있는지입니다. 이 접근이 기술적인 개선에서 그치지 않는다는 점도 짚어둘 만합니다. 패러다임 자체가 바뀌는 일에 가깝습니다. 방향은 데이터가 잡고, 검증은 사용자가 하고, 요구는 시장에서 나옵니다. 그런 전략이라면 시사점이 적지 않습니다. 변화는 지금 시작해야 합니다.",
+      "elapsed_s": 63.6
+    }
+  ]
+}
