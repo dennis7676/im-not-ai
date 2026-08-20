@@ -54,9 +54,10 @@ class DiagnosisRulesBuildTests(unittest.TestCase):
         """taxonomy의 패턴 ID 전수(quick:false 문서레벨 포함)가 인덱스에 있다."""
         taxo_ids = {p["id"] for p in self.patterns}
         out_ids = set(
-            re.findall(r"^- \*\*([A-J]-\d+)\*\*", self.rendered, re.M)
+            re.findall(r"^- \*\*([A-K]-\d+)\*\*", self.rendered, re.M)
         )
-        self.assertEqual(len(taxo_ids), 71)
+        # fork: 상수 대신 하한 — upstream 71건 유실 방지 + 로컬 K절 확장 허용
+        self.assertGreaterEqual(len(taxo_ids), 71)
         self.assertEqual(taxo_ids, out_ids)
 
     def test_document_level_patterns_included(self) -> None:
@@ -67,7 +68,8 @@ class DiagnosisRulesBuildTests(unittest.TestCase):
     def test_no_empty_definitions_or_signatures(self) -> None:
         """패턴당 시그니처 줄이 정확히 71개, 빈 값 0."""
         sig_lines = re.findall(r"^  시그니처:\s*(.*)$", self.rendered, re.M)
-        self.assertEqual(len(sig_lines), 71)
+        # fork: 패턴당 정확히 1줄이 계약 — 총량은 taxonomy에서 센다
+        self.assertEqual(len(sig_lines), len(self.patterns))
         self.assertEqual([s for s in sig_lines if not s.strip()], [])
 
     def test_size_within_budget(self) -> None:
