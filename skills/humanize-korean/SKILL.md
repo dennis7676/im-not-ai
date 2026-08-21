@@ -32,6 +32,9 @@ humanize-korean v2.3 — 경로: {light|standard|heavy} ({route_hint|사용자 �
 1. **사용자 명시가 최우선.** `--strict`·"정밀 모드"·"정밀하게"·"제대로" → **heavy 고정**. "가볍게"·"빠르게만" → **light 고정**. 명시가 있으면 route_hint는 무시한다.
 2. 명시가 없으면 shim이 `00_metrics.json`에 쓴 **`route_hint`**(`light`|`standard`|`heavy`)를 디폴트 경로로 따른다.
 3. `route_hint` 필드가 없거나 shim이 graceful degrade로 점수 산출에 실패한 경우 → **standard**로 간주.
+3-1. **발행 대상 문서는 `route_hint`와 무관하게 최소 standard.** `route_hint=light`가 나와도 light로 내려가지 않는다(사용자가 1번으로 명시한 경우는 예외). 발행 대상의 판정은 결과물이 대웅님 명의로 남의 눈에 들어가는가이고, 실무 기준은 `ai-tell-guard.py`의 `PERSONAL_PATTERNS`와 같다 — 블로그 연재, 온톨로지 초안(`draft`, `ep\d`), 에세이·칼럼, 티스토리 발행 패키지.
+   - 근거(2026-08-21 실측): 온톨로지 ep01·ep02의 `route_hint`가 둘 다 `light`였고 그 경로로 처리됐다. 발행 직전 원고가 최경량 경로를 타는 것은 shim 점수가 낮아서가 아니라 **점수가 낮게 나오는 글일수록 남은 티가 구조 층에 있기 때문**이다 — 어휘 티가 없어 light가 나오고, 그래서 구조를 보는 콜이 생략된다.
+   - 이 규칙은 경로만 올린다. 코드·shim은 건드리지 않으므로 `route_hint` 산출 자체는 그대로다.
 4. light/standard 결과가 등급 C/D → 사용자에게 "heavy(정밀) 재실행 권고" 안내(자동 전환 아님 — 사용자 opt-in).
 5. **입력 길이는 경로를 바꾸지 않는다.** 1만자급도 단일 콜로 처리한다(§설계 노트의 실측 근거 참조). 길이·중증도 판단은 shim의 route_hint에 위임한다.
 
