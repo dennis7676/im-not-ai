@@ -36,7 +36,11 @@ humanize-korean v2.3 — 경로: {light|standard|heavy} ({route_hint|사용자 �
    - 근거(2026-08-21 실측): 온톨로지 ep01·ep02의 `route_hint`가 둘 다 `light`였고 그 경로로 처리됐다. 발행 직전 원고가 최경량 경로를 타는 것은 shim 점수가 낮아서가 아니라 **점수가 낮게 나오는 글일수록 남은 티가 구조 층에 있기 때문**이다 — 어휘 티가 없어 light가 나오고, 그래서 구조를 보는 콜이 생략된다.
    - 이 규칙은 경로만 올린다. 코드·shim은 건드리지 않으므로 `route_hint` 산출 자체는 그대로다.
 4. light/standard 결과가 등급 C/D → 사용자에게 "heavy(정밀) 재실행 권고" 안내(자동 전환 아님 — 사용자 opt-in).
-5. **입력 길이는 경로를 바꾸지 않는다.** 1만자급도 단일 콜로 처리한다(§설계 노트의 실측 근거 참조). 길이·중증도 판단은 shim의 route_hint에 위임한다.
+5. **발행 대상 문서는 light 로 끝내지 않는다.** 사내 공유·외부 게시·팀이 오래 두고 읽을 문서(장르 `report`·`manual`, 또는 사용자가 "컨플루언스"·"공유"·"발행"을 언급)면 `route_hint=light` 라도 **standard 로 올린다.**
+   - 근거(2026-08-21 실측): `risk_score=2 · route_hint=light`("이미 잘 쓴 글")로 나온 사내 아키텍처 문서에서 진단 콜을 돌리자 지배 패턴 4개가 나왔다. `compute_route_hint()` 의 `tells` 는 **카운트형 어휘·피동 지표만** 더하므로, 마크업 층(J-1 볼드 과다)과 의미 층(A-7 영어 발상 직역 술어)은 구조적으로 세지 못한다. 지표가 틀린 것이 아니라 **보는 층이 다르다.**
+   - 사용자가 육안으로 번역투를 먼저 잡아낸 사례다. light 로 끝냈으면 그대로 나갔다.
+   - 개인 메모·초안·휘발성 텍스트는 그대로 light 를 따른다. 이 규칙은 **남이 읽을 글**에만 건다.
+6. **입력 길이는 경로를 바꾸지 않는다.** 1만자급도 단일 콜로 처리한다(§설계 노트의 실측 근거 참조). 길이·중증도 판단은 shim의 route_hint에 위임한다.
 
 ### run_id 결정
 - 모든 경로는 **cwd 기준**. 새 폴더 생성도 cwd 기준 `_workspace/{YYYY-MM-DD-NNN}/`에 만든다.
@@ -294,3 +298,8 @@ exit code로 분기한다 (0/1/2/3 의미는 기존 게이트와 동일):
 - 윤문 처방 (진단 전용): [`${CLAUDE_SKILL_DIR}/references/rewriting-playbook.md`](references/rewriting-playbook.md) — 카테고리별 치환 레시피·장르별 허용 표
 - 학술 인용 외부 SSOT: [`${CLAUDE_SKILL_DIR}/references/scholarship.md`](references/scholarship.md) — v2.0 학자 인용·caveat verbatim 보존
 - 웹 서비스 스펙 (옵션): [`${CLAUDE_SKILL_DIR}/references/web-service-spec.md`](references/web-service-spec.md) — 웹 확장 시 로드
+
+## 나열 구분자
+
+항목을 나열할 때 가운뎃점(`·`) 대신 **쉼표(`,`)** 를 씁니다. 나열이 셋을 넘으면 구분자를 바꾸기 전에 **표를 먼저 검토합니다** — 쉼표로 바꿔도 긴 나열은 안 읽힙니다.
+정본과 예외 목록은 `~/.claude/rules/output-charset.md`의 "나열 구분자는 쉼표" 절입니다.
