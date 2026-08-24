@@ -568,6 +568,99 @@ def progressive_aspect_rate(text: str) -> float:
 # ---------------------------------------------------------------------------
 
 
+# --- v2.4 로컬 확장 (2026-08-25): 포괄어·명사나열·빈동사 -----------------------
+# 근거: RESEARCH/korean-word-precision_20260825_065209
+#  - 포괄어 목록은 로컬 코퍼스 실측에서 유도했다(사용자 발화 27.7만자 대 에이전트 281만자).
+#    한국어 문체론에서 이 목록을 금지어로 지목한 1차 출처는 찾지 못했으므로(A1),
+#    이 지표는 학술 근거가 아니라 **사용자 취향 규칙**이다. 등급을 낮춰 다룬다.
+#  - 명사 나열은 plainlanguage.gov 의 "3개를 넘어가면 참기 어려워진다"가 근거다(A3).
+#  - 빈 동사(light verb)는 영어 nominalization 의 한국어 대응이다(A3 4절).
+
+# 로컬 실측에서 사용자 대비 과다했던 것만 넣는다(10만자당 차이 +3 이상).
+# 사용자도 즐겨 쓰는 말(구조·부분·방식·상황)은 넣지 않는다 — 넣으면 사람 글이 걸린다.
+_VAGUE_NOUNS = ("상태", "대상", "축", "자리", "지점", "층", "기제", "모양", "측면", "차원", "셈")
+_JOSA = r"(?:은|는|이|가|을|를|의|에|에서|로|으로|와|과|도|만|들|이라|이고)"
+_VAGUE_RE = re.compile(r"(?<![가-힣])(?:" + "|".join(_VAGUE_NOUNS) + r")" + _JOSA)
+
+# 지목 가능한 대상의 신호. Hayakawa 의 추상 사다리를 한국어로 옮기면
+# "육안·측정·이름을 댈 수 있는가"이고(A3 4절), 문자열로는 이렇게 근사한다.
+_CONCRETE_RE = re.compile(r"\d|[A-Za-z_./]{3,}|`[^`]+`|[가-힣]+님|\d+개|\d+건")
+
+_LIGHT_VERBS = ("진행하다", "실시하다", "수행하다", "실행하다", "이행하다", "전개하다")
+_LIGHT_VERB_RE = re.compile(r"(?:" + "|".join(v[:-1] for v in _LIGHT_VERBS) + r")(?:합니다|한다|해요|했|하고|하며|하는)")
+
+
+def vague_noun_rate(text: str) -> float:
+    """10만자당 포괄어 빈도.
+
+    실측(2026-08-25): 사용자 16.4 대 에이전트 54.5 로 **3.3배** 갈린다. 다만 1,500자
+    조각 단위로 보면 양쪽 중앙값이 모두 0.0 이고, 사용자 상위 10% 임계(69.6)를 넘는
+    에이전트 조각이 20% 다 — 분포가 한쪽으로 치우쳐 있다. **게이트가 아니라 진단
+    신호로 쓴다.** 임계 하나로 자르면 다섯에 하나만 잡고 넷은 놓친다.
+    """
+    body = _strip_markup(text)
+    if not body:
+        return 0.0
+    return len(_VAGUE_RE.findall(body)) / len(body) * 100000
+
+
+def vague_noun_unsupported(text: str) -> int:
+    """포괄어가 둘 이상인데 지목 가능한 대상이 하나도 없는 문장 수.
+
+    실측 주의(A0): 이 판정은 **산문에만** 유효하다. 코드·경로·수치가 섞인 기술 문장은
+    구체 신호가 항상 잡혀 무조건 통과한다 — 전수 적용하면 사람 글이 더 많이 걸린다
+    (사용자 0.38% 대 에이전트 0.09%로 역전됐다). 그래서 이 값은 게이트가 아니라
+    진단 입력이고, 임계 판정은 사람이나 진단 콜이 한다.
+    """
+    body = _strip_markup(text)
+    hits = 0
+    for sentence in re.split(r"[.!?\n]", body):
+        s = sentence.strip()
+        if not (20 <= len(s) <= 300):
+            continue
+        if len(_VAGUE_RE.findall(s)) >= 2 and not _CONCRETE_RE.search(s):
+            hits += 1
+    return hits
+
+
+def noun_string_max(text: str) -> int:
+    """조사 없이 이어 붙인 한글 명사의 최대 연쇄 길이.
+
+    plainlanguage.gov: 명사가 셋을 넘어가면 읽기 어려워진다. 한국어도 같은 현상이다(A3).
+
+    ⚠️ **이 코퍼스에서는 판별력이 없다** (2026-08-25 실측): 1,500자 조각 757개에서
+    사용자와 에이전트의 중앙값이 4.0 으로 같았고, 사용자 상위 10% 임계를 넘는 에이전트
+    조각이 1% 였다. 근거는 외부에 있지만 우리 글에서는 안 갈린다 — **게이트에 쓰지 말고
+    관측만 한다.** 다른 장르(공문서, 기술 명세)에서는 다시 재 볼 값어치가 있다.
+    """
+    body = _strip_markup(text)
+    longest = 0
+    for run in re.findall(r"(?:[가-힣]{2,}\s+){2,}[가-힣]{2,}", body):
+        words = run.split()
+        # 조사로 끝나지 않는 어절만 명사 연쇄로 본다
+        chain = 0
+        for w in words:
+            if re.search(_JOSA + r"$", w) or re.search(r"(?:다|요|고|며|서|만|면)$", w):
+                chain = 0
+            else:
+                chain += 1
+                longest = max(longest, chain)
+    return longest
+
+
+def light_verb_rate(text: str) -> float:
+    """1만자당 빈 동사(진행하다·실시하다·수행하다 등). 영어 nominalization 의 한국어 대응.
+
+    ⚠️ **이 코퍼스에서는 죽은 지표다** (2026-08-25 실측): 사용자 27.7만자와 에이전트
+    85.3만자 양쪽에서 0.0 이 나왔다. 둘 다 이 어휘를 쓰지 않는다. 근거(A3 4절)는
+    유효하지만 대상이 없다 — **게이트에 쓰지 말고 관측만 한다.**
+    """
+    body = _strip_markup(text)
+    if not body:
+        return 0.0
+    return len(_LIGHT_VERB_RE.findall(body)) / len(body) * 10000
+
+
 def interference_index(text: str) -> dict[str, Any]:
     """T1~T8 weighted interference signal — interference axis composite.
 

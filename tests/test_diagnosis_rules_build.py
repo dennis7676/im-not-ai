@@ -54,7 +54,7 @@ class DiagnosisRulesBuildTests(unittest.TestCase):
         """taxonomy의 패턴 ID 전수(quick:false 문서레벨 포함)가 인덱스에 있다."""
         taxo_ids = {p["id"] for p in self.patterns}
         out_ids = set(
-            re.findall(r"^- \*\*([A-K]-\d+)\*\*", self.rendered, re.M)
+            re.findall(r"^- \*\*([A-L]-\d+)\*\*", self.rendered, re.M)
         )
         # fork: 상수 대신 하한 — upstream 71건 유실 방지 + 로컬 K절 확장 허용
         self.assertGreaterEqual(len(taxo_ids), 71)

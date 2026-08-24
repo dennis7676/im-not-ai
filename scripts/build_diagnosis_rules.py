@@ -119,7 +119,7 @@ def render(patterns: list[dict], details: dict[str, dict[str, str | None]]) -> s
         "",
         "> **자동 생성 — 직접 편집 금지.** `scripts/build_diagnosis_rules.py`가",
         "> SSOT `ai-tell-taxonomy.md`에서 생성한다. 진단 콜 전용 — 예문 전수·",
-        "> 처방·학술 인용·버전주석은 SSOT 참조. **71패턴 전수** 수록",
+        f"> 처방·학술 인용·버전주석은 SSOT 참조. **{len(patterns)}패턴 전수** 수록",
         "> (문서 레벨 quick:false 패턴 포함 — quick-rules로 대체 불가).",
         "",
         "심각도: **S1** 결정적(1회로 확신) / **S2** 강함(3회+ 반복 시 티) / "
@@ -194,9 +194,9 @@ def build() -> tuple[str, list[dict]]:
     details = extract_details(taxonomy)
     rendered = render(patterns, details)
 
-    # 구조 자가 검증 — 71 ID 전수 + 빈 항목 0 (조용한 누락 금지).
+    # 구조 자가 검증 — ID 전수 + 빈 항목 0 (조용한 누락 금지).
     ids_in = {p["id"] for p in patterns}
-    ids_out = set(re.findall(r"^- \*\*([A-K]-\d+)\*\*", rendered, re.M))
+    ids_out = set(re.findall(r"^- \*\*([A-L]-\d+)\*\*", rendered, re.M))
     if ids_in != ids_out:
         raise ParseError(
             f"ID 누락/과잉: 누락 {sorted(ids_in - ids_out)} "
