@@ -1,0 +1,90 @@
+{
+  "claude_A1": {
+    "len": 1184,
+    "vague_noun_rate": 0.0,
+    "nominal_dominance": 0.8062,
+    "spacing_uniformity": 0.3782,
+    "noun_string_max": 3,
+    "light_verb_rate": 0.0,
+    "comma_inclusion_rate": 0.3704,
+    "ending_comma_rate": 0.3571,
+    "hanja_nominalizer_density": 0.0034
+  },
+  "claude_A2": {
+    "len": 1127,
+    "vague_noun_rate": 0.0,
+    "nominal_dominance": 0.8217,
+    "spacing_uniformity": 0.382,
+    "noun_string_max": 3,
+    "light_verb_rate": 0.0,
+    "comma_inclusion_rate": 0.48,
+    "ending_comma_rate": 0.4167,
+    "hanja_nominalizer_density": 0.0
+  },
+  "claude_B1": {
+    "len": 1175,
+    "vague_noun_rate": 170.2128,
+    "nominal_dominance": 0.7367,
+    "spacing_uniformity": 0.4368,
+    "noun_string_max": 3,
+    "light_verb_rate": 0.0,
+    "comma_inclusion_rate": 0.3333,
+    "ending_comma_rate": 0.4,
+    "hanja_nominalizer_density": 0.0
+  },
+  "claude_B2": {
+    "len": 1105,
+    "vague_noun_rate": 271.4932,
+    "nominal_dominance": 0.7446,
+    "spacing_uniformity": 0.4023,
+    "noun_string_max": 4,
+    "light_verb_rate": 0.0,
+    "comma_inclusion_rate": 0.4138,
+    "ending_comma_rate": 0.5625,
+    "hanja_nominalizer_density": 0.0
+  },
+  "codex_A1": {
+    "len": 1174,
+    "vague_noun_rate": 85.1789,
+    "nominal_dominance": 0.8287,
+    "spacing_uniformity": 0.353,
+    "noun_string_max": 3,
+    "light_verb_rate": 0.0,
+    "comma_inclusion_rate": 0.6667,
+    "ending_comma_rate": 0.2143,
+    "hanja_nominalizer_density": 0.0105
+  },
+  "codex_A2": {
+    "len": 1144,
+    "vague_noun_rate": 87.4126,
+    "nominal_dominance": 0.8616,
+    "spacing_uniformity": 0.3589,
+    "noun_string_max": 4,
+    "light_verb_rate": 0.0,
+    "comma_inclusion_rate": 0.625,
+    "ending_comma_rate": 0.3333,
+    "hanja_nominalizer_density": 0.0242
+  },
+  "codex_B1": {
+    "len": 1145,
+    "vague_noun_rate": 174.6725,
+    "nominal_dominance": 0.805,
+    "spacing_uniformity": 0.3756,
+    "noun_string_max": 4,
+    "light_verb_rate": 0.0,
+    "comma_inclusion_rate": 0.4,
+    "ending_comma_rate": 0.4286,
+    "hanja_nominalizer_density": 0.0
+  },
+  "codex_B2": {
+    "len": 1151,
+    "vague_noun_rate": 0.0,
+    "nominal_dominance": 0.8215,
+    "spacing_uniformity": 0.3829,
+    "noun_string_max": 2,
+    "light_verb_rate": 0.0,
+    "comma_inclusion_rate": 0.375,
+    "ending_comma_rate": 0.5333,
+    "hanja_nominalizer_density": 0.0034
+  }
+}
