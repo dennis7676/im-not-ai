@@ -98,7 +98,7 @@ SKILL_ROOT="$(d="$(cd -P "${CLAUDE_SKILL_DIR}" && pwd)"; \
 1. **진단 생략.** `humanize-monolith`를 `Agent` 도구로 1회 호출 — 청킹 없음.
    - 입력: `input_path=01_input_with_metrics.txt`, `quick_rules_path=${CLAUDE_SKILL_DIR}/references/quick-rules.md`, `genre_hint`, 그리고 강도 지시 `보수`(내용 앵커 원형 보존, 원문에 없던 표현 삽입 금지, 확신 없는 구간은 그대로 둔다).
    - 출력: `final.md` (본문 + `<!-- HUMANIZE-SUMMARY -->` 블록).
-2. Phase 2.5 변경률 게이트(Bash — LLM 콜 아님).
+2. Phase 2.5 절의 공통 절차로 게이트를 실행한다: `python3 ${SKILL_ROOT}/scripts/verify_gates.py --before "{before_path}" --after "{after_path}" --genre {genre}; echo "gate_exit=$?"`
 3. **조기 종료 보고**: monolith 탐지가 거의 없고 게이트 변경률이 5% 미만이면, 결과 전달을 "이미 좋은 글입니다 — 손댄 곳은 {N}곳({요지}) 정도"로 요약한다. 억지로 더 고치지 않는다.
 4. 게이트 exit 2(≥50%)일 때만 롤백 재실행 1회(이 경우 총 2콜). light에서 50%가 나오면 과윤문 사고이므로 재실행 지시에 보수 강도를 재강조한다.
 
@@ -116,7 +116,7 @@ SKILL_ROOT="$(d="$(cd -P "${CLAUDE_SKILL_DIR}" && pwd)"; \
    ```
    → `01_input_with_metrics.txt`가 [진단 → 정량 블록 → 원문] 순으로 재생성된다.
 3. **윤문 1콜**: `humanize-monolith` 1회 호출 — **청킹 없음. 1만자급도 단일 콜이다.** → `final.md`.
-4. Phase 2.5 변경률 게이트(Bash).
+4. Phase 2.5 절의 공통 절차로 게이트를 실행한다: `python3 ${SKILL_ROOT}/scripts/verify_gates.py --before "{before_path}" --after "{after_path}" --genre {genre}; echo "gate_exit=$?"`
 5. **finalize 생략이 기본.** 과윤문은 `verify_gates.py`의 결정적 게이트가 잡는다. finalize 승급 조건(아래 표)에 걸릴 때만 `humanize-finalizer` 1콜 추가(이 경우 총 3콜).
 
 **콜 수: 2 (finalize 승급·게이트 롤백 시 3).**
@@ -145,7 +145,7 @@ Standard의 1과 동일 — `humanize-diagnostician` 1콜 → `02_diagnosis.md`.
    - **재청킹 주의**: `--chunk` 재실행 시 경계가 바뀌므로 기존 `02_chunk_*_rewritten.txt`는 shim이 자동 삭제한다(`stale_removed`). 청킹 후 입력을 수정하면 재청킹부터 다시 한다.
 
 ### Phase P2.5: 구조 게이트
-Phase 2.5(공통)와 동일 — `verify_gates.py --genre {genre}`. Bash 1회 — LLM 콜 아님.
+Phase 2.5 절의 공통 절차로 게이트를 실행한다: `python3 ${SKILL_ROOT}/scripts/verify_gates.py --before "{before_path}" --after "{after_path}" --genre {genre}; echo "gate_exit=$?"`
 
 ### Phase P3: finalize (heavy는 항상)
 `humanize-finalizer`를 `Agent` 도구로 1회 호출.
@@ -174,16 +174,15 @@ finalize는 추가 LLM 콜이다. 다음 조건에서만 실행한다:
 
 monolith가 자체 보고한 변경률은 **참고값**이다. 철칙 #4의 게이트 판정은 코드가 한다.
 문자 기반 변경률은 구조 편집에 눈이 없다(실측: change_rate 2.77% 뒤에 문장 터치율 29.7%·대구 -75%가 은닉). `verify_gates.py`는 문자율에 목표 달성·대구 전멸·golden+수치 3축을 더해 이 사각지대를 보완한다.
-윤문본이 나온 직후 Bash로 1회 실행:
+**짧은 입력이나 워크스페이스 부재를 이유로 건너뛰지 않는다.**
+워크스페이스의 `01_input.txt`와 `final.md`가 모두 있으면 각각 `{before_path}`, `{after_path}`로 사용한다. 하나라도 없으면 Bash에서 `mktemp -d`로 임시 디렉터리를 하나 만들고, Write 도구로 현재 원문 전체를 그 디렉터리의 `before.txt`, 윤문본 전체를 `after.txt`에 저장한다. 두 파일의 경로를 각각 `{before_path}`, `{after_path}`로 사용한다. 본문을 Bash 명령이나 heredoc에 넣지 않는다. Bash는 `mktemp -d`와 게이트 실행에만 쓴다.
+윤문본이 나온 직후 Bash로 다음 한 줄을 실행한다:
 
-```
-python3 ${SKILL_ROOT}/scripts/verify_gates.py \
-    --before _workspace/{run_id}/01_input.txt \
-    --after  _workspace/{run_id}/final.md \
-    --genre {genre}
+```bash
+python3 ${SKILL_ROOT}/scripts/verify_gates.py --before "{before_path}" --after "{after_path}" --genre {genre}; echo "gate_exit=$?"
 ```
 
-exit code로 분기한다 (0/1/2/3 의미는 기존 게이트와 동일):
+출력된 `gate_exit` 값으로 분기한다. 0, 1, 2, 3의 의미는 기존 게이트와 동일하다:
 
 | exit | 판정 | 후속 |
 |---|---|---|
