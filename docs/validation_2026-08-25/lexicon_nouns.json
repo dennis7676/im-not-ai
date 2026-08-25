@@ -1,0 +1,1482 @@
+[
+  {
+    "word": "알맞",
+    "user_n": 10,
+    "asst_n": 0,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.0,
+    "ratio": null
+  },
+  {
+    "word": "그러므",
+    "user_n": 8,
+    "asst_n": 0,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.0,
+    "ratio": null
+  },
+  {
+    "word": "롸이팅",
+    "user_n": 8,
+    "asst_n": 0,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.0,
+    "ratio": null
+  },
+  {
+    "word": "발행일",
+    "user_n": 9,
+    "asst_n": 1,
+    "user_per100k": 5.8,
+    "asst_per100k": 0.0,
+    "ratio": 120.99
+  },
+  {
+    "word": "당신",
+    "user_n": 31,
+    "asst_n": 4,
+    "user_per100k": 20.1,
+    "asst_per100k": 0.2,
+    "ratio": 104.18
+  },
+  {
+    "word": "가볍고",
+    "user_n": 12,
+    "asst_n": 2,
+    "user_per100k": 7.8,
+    "asst_per100k": 0.1,
+    "ratio": 80.66
+  },
+  {
+    "word": "이거",
+    "user_n": 57,
+    "asst_n": 10,
+    "user_per100k": 37.0,
+    "asst_per100k": 0.5,
+    "ratio": 76.62
+  },
+  {
+    "word": "적극",
+    "user_n": 11,
+    "asst_n": 2,
+    "user_per100k": 7.1,
+    "asst_per100k": 0.1,
+    "ratio": 73.94
+  },
+  {
+    "word": "부분들",
+    "user_n": 10,
+    "asst_n": 2,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.1,
+    "ratio": 67.21
+  },
+  {
+    "word": "현장",
+    "user_n": 11,
+    "asst_n": 3,
+    "user_per100k": 7.1,
+    "asst_per100k": 0.1,
+    "ratio": 49.29
+  },
+  {
+    "word": "찾아서",
+    "user_n": 17,
+    "asst_n": 5,
+    "user_per100k": 11.0,
+    "asst_per100k": 0.2,
+    "ratio": 45.71
+  },
+  {
+    "word": "일단",
+    "user_n": 26,
+    "asst_n": 8,
+    "user_per100k": 16.9,
+    "asst_per100k": 0.4,
+    "ratio": 43.69
+  },
+  {
+    "word": "문장으로",
+    "user_n": 9,
+    "asst_n": 3,
+    "user_per100k": 5.8,
+    "asst_per100k": 0.1,
+    "ratio": 40.33
+  },
+  {
+    "word": "있는",
+    "user_n": 33,
+    "asst_n": 12,
+    "user_per100k": 21.4,
+    "asst_per100k": 0.6,
+    "ratio": 36.97
+  },
+  {
+    "word": "싶은데",
+    "user_n": 10,
+    "asst_n": 4,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.2,
+    "ratio": 33.61
+  },
+  {
+    "word": "블라인드",
+    "user_n": 14,
+    "asst_n": 6,
+    "user_per100k": 9.1,
+    "asst_per100k": 0.3,
+    "ratio": 31.37
+  },
+  {
+    "word": "스토리보드",
+    "user_n": 23,
+    "asst_n": 13,
+    "user_per100k": 14.9,
+    "asst_per100k": 0.6,
+    "ratio": 23.78
+  },
+  {
+    "word": "마크다운",
+    "user_n": 24,
+    "asst_n": 14,
+    "user_per100k": 15.6,
+    "asst_per100k": 0.7,
+    "ratio": 23.04
+  },
+  {
+    "word": "추측",
+    "user_n": 23,
+    "asst_n": 14,
+    "user_per100k": 14.9,
+    "asst_per100k": 0.7,
+    "ratio": 22.08
+  },
+  {
+    "word": "솔루션",
+    "user_n": 13,
+    "asst_n": 8,
+    "user_per100k": 8.4,
+    "asst_per100k": 0.4,
+    "ratio": 21.84
+  },
+  {
+    "word": "반드시",
+    "user_n": 39,
+    "asst_n": 26,
+    "user_per100k": 25.3,
+    "asst_per100k": 1.3,
+    "ratio": 20.16
+  },
+  {
+    "word": "개인용",
+    "user_n": 10,
+    "asst_n": 7,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.3,
+    "ratio": 19.2
+  },
+  {
+    "word": "느낌",
+    "user_n": 19,
+    "asst_n": 14,
+    "user_per100k": 12.3,
+    "asst_per100k": 0.7,
+    "ratio": 18.24
+  },
+  {
+    "word": "같은데",
+    "user_n": 12,
+    "asst_n": 9,
+    "user_per100k": 7.8,
+    "asst_per100k": 0.4,
+    "ratio": 17.92
+  },
+  {
+    "word": "매우",
+    "user_n": 8,
+    "asst_n": 6,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.3,
+    "ratio": 17.92
+  },
+  {
+    "word": "일본",
+    "user_n": 8,
+    "asst_n": 6,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.3,
+    "ratio": 17.92
+  },
+  {
+    "word": "문장부호",
+    "user_n": 9,
+    "asst_n": 7,
+    "user_per100k": 5.8,
+    "asst_per100k": 0.3,
+    "ratio": 17.28
+  },
+  {
+    "word": "한국",
+    "user_n": 24,
+    "asst_n": 19,
+    "user_per100k": 15.6,
+    "asst_per100k": 0.9,
+    "ratio": 16.98
+  },
+  {
+    "word": "협업",
+    "user_n": 10,
+    "asst_n": 8,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.4,
+    "ratio": 16.8
+  },
+  {
+    "word": "구성요소",
+    "user_n": 10,
+    "asst_n": 8,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.4,
+    "ratio": 16.8
+  },
+  {
+    "word": "어떤",
+    "user_n": 94,
+    "asst_n": 78,
+    "user_per100k": 60.9,
+    "asst_per100k": 3.8,
+    "ratio": 16.2
+  },
+  {
+    "word": "콘티",
+    "user_n": 19,
+    "asst_n": 16,
+    "user_per100k": 12.3,
+    "asst_per100k": 0.8,
+    "ratio": 15.96
+  },
+  {
+    "word": "덩어리",
+    "user_n": 26,
+    "asst_n": 22,
+    "user_per100k": 16.9,
+    "asst_per100k": 1.1,
+    "ratio": 15.89
+  },
+  {
+    "word": "이런",
+    "user_n": 26,
+    "asst_n": 22,
+    "user_per100k": 16.9,
+    "asst_per100k": 1.1,
+    "ratio": 15.89
+  },
+  {
+    "word": "그거",
+    "user_n": 10,
+    "asst_n": 9,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.4,
+    "ratio": 14.94
+  },
+  {
+    "word": "연구",
+    "user_n": 10,
+    "asst_n": 9,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.4,
+    "ratio": 14.94
+  },
+  {
+    "word": "근데",
+    "user_n": 12,
+    "asst_n": 11,
+    "user_per100k": 7.8,
+    "asst_per100k": 0.5,
+    "ratio": 14.66
+  },
+  {
+    "word": "첫인상",
+    "user_n": 12,
+    "asst_n": 11,
+    "user_per100k": 7.8,
+    "asst_per100k": 0.5,
+    "ratio": 14.66
+  },
+  {
+    "word": "사이",
+    "user_n": 28,
+    "asst_n": 27,
+    "user_per100k": 18.2,
+    "asst_per100k": 1.3,
+    "ratio": 13.94
+  },
+  {
+    "word": "떠들었는데",
+    "user_n": 8,
+    "asst_n": 8,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.4,
+    "ratio": 13.44
+  },
+  {
+    "word": "답답하더라고",
+    "user_n": 8,
+    "asst_n": 8,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.4,
+    "ratio": 13.44
+  },
+  {
+    "word": "문제인지부터",
+    "user_n": 8,
+    "asst_n": 8,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.4,
+    "ratio": 13.44
+  },
+  {
+    "word": "좋았",
+    "user_n": 8,
+    "asst_n": 8,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.4,
+    "ratio": 13.44
+  },
+  {
+    "word": "영희님한테",
+    "user_n": 8,
+    "asst_n": 8,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.4,
+    "ratio": 13.44
+  },
+  {
+    "word": "기사",
+    "user_n": 8,
+    "asst_n": 8,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.4,
+    "ratio": 13.44
+  },
+  {
+    "word": "헤딩",
+    "user_n": 28,
+    "asst_n": 29,
+    "user_per100k": 18.2,
+    "asst_per100k": 1.4,
+    "ratio": 12.98
+  },
+  {
+    "word": "반환",
+    "user_n": 29,
+    "asst_n": 32,
+    "user_per100k": 18.8,
+    "asst_per100k": 1.5,
+    "ratio": 12.18
+  },
+  {
+    "word": "라이선스",
+    "user_n": 17,
+    "asst_n": 19,
+    "user_per100k": 11.0,
+    "asst_per100k": 0.9,
+    "ratio": 12.03
+  },
+  {
+    "word": "직관성",
+    "user_n": 8,
+    "asst_n": 9,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.4,
+    "ratio": 11.95
+  },
+  {
+    "word": "확장성",
+    "user_n": 8,
+    "asst_n": 9,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.4,
+    "ratio": 11.95
+  },
+  {
+    "word": "시작했으면",
+    "user_n": 8,
+    "asst_n": 9,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.4,
+    "ratio": 11.95
+  },
+  {
+    "word": "지식그래프",
+    "user_n": 11,
+    "asst_n": 13,
+    "user_per100k": 7.1,
+    "asst_per100k": 0.6,
+    "ratio": 11.37
+  },
+  {
+    "word": "관행",
+    "user_n": 10,
+    "asst_n": 12,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.6,
+    "ratio": 11.2
+  },
+  {
+    "word": "물어보고",
+    "user_n": 9,
+    "asst_n": 11,
+    "user_per100k": 5.8,
+    "asst_per100k": 0.5,
+    "ratio": 11.0
+  },
+  {
+    "word": "다음엔",
+    "user_n": 8,
+    "asst_n": 10,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.5,
+    "ratio": 10.75
+  },
+  {
+    "word": "모니터링",
+    "user_n": 15,
+    "asst_n": 19,
+    "user_per100k": 9.7,
+    "asst_per100k": 0.9,
+    "ratio": 10.61
+  },
+  {
+    "word": "저작권",
+    "user_n": 15,
+    "asst_n": 19,
+    "user_per100k": 9.7,
+    "asst_per100k": 0.9,
+    "ratio": 10.61
+  },
+  {
+    "word": "주제",
+    "user_n": 26,
+    "asst_n": 34,
+    "user_per100k": 16.9,
+    "asst_per100k": 1.6,
+    "ratio": 10.28
+  },
+  {
+    "word": "퓨처보드",
+    "user_n": 11,
+    "asst_n": 15,
+    "user_per100k": 7.1,
+    "asst_per100k": 0.7,
+    "ratio": 9.86
+  },
+  {
+    "word": "텍스트",
+    "user_n": 87,
+    "asst_n": 124,
+    "user_per100k": 56.4,
+    "asst_per100k": 6.0,
+    "ratio": 9.43
+  },
+  {
+    "word": "요구사항",
+    "user_n": 11,
+    "asst_n": 16,
+    "user_per100k": 7.1,
+    "asst_per100k": 0.8,
+    "ratio": 9.24
+  },
+  {
+    "word": "블로그",
+    "user_n": 13,
+    "asst_n": 19,
+    "user_per100k": 8.4,
+    "asst_per100k": 0.9,
+    "ratio": 9.2
+  },
+  {
+    "word": "마세요",
+    "user_n": 10,
+    "asst_n": 15,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.7,
+    "ratio": 8.96
+  },
+  {
+    "word": "의사결정",
+    "user_n": 19,
+    "asst_n": 29,
+    "user_per100k": 12.3,
+    "asst_per100k": 1.4,
+    "ratio": 8.81
+  },
+  {
+    "word": "빼고",
+    "user_n": 26,
+    "asst_n": 40,
+    "user_per100k": 16.9,
+    "asst_per100k": 1.9,
+    "ratio": 8.74
+  },
+  {
+    "word": "클로드",
+    "user_n": 9,
+    "asst_n": 14,
+    "user_per100k": 5.8,
+    "asst_per100k": 0.7,
+    "ratio": 8.64
+  },
+  {
+    "word": "사용성",
+    "user_n": 12,
+    "asst_n": 19,
+    "user_per100k": 7.8,
+    "asst_per100k": 0.9,
+    "ratio": 8.49
+  },
+  {
+    "word": "상품",
+    "user_n": 15,
+    "asst_n": 24,
+    "user_per100k": 9.7,
+    "asst_per100k": 1.2,
+    "ratio": 8.4
+  },
+  {
+    "word": "의견",
+    "user_n": 13,
+    "asst_n": 21,
+    "user_per100k": 8.4,
+    "asst_per100k": 1.0,
+    "ratio": 8.32
+  },
+  {
+    "word": "쿼리",
+    "user_n": 8,
+    "asst_n": 13,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.6,
+    "ratio": 8.27
+  },
+  {
+    "word": "무거운",
+    "user_n": 10,
+    "asst_n": 17,
+    "user_per100k": 6.5,
+    "asst_per100k": 0.8,
+    "ratio": 7.91
+  },
+  {
+    "word": "옵시디언",
+    "user_n": 12,
+    "asst_n": 21,
+    "user_per100k": 7.8,
+    "asst_per100k": 1.0,
+    "ratio": 7.68
+  },
+  {
+    "word": "비공개",
+    "user_n": 8,
+    "asst_n": 14,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.7,
+    "ratio": 7.68
+  },
+  {
+    "word": "일반",
+    "user_n": 17,
+    "asst_n": 30,
+    "user_per100k": 11.0,
+    "asst_per100k": 1.4,
+    "ratio": 7.62
+  },
+  {
+    "word": "관련",
+    "user_n": 44,
+    "asst_n": 82,
+    "user_per100k": 28.5,
+    "asst_per100k": 4.0,
+    "ratio": 7.21
+  },
+  {
+    "word": "셋째",
+    "user_n": 8,
+    "asst_n": 15,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.7,
+    "ratio": 7.17
+  },
+  {
+    "word": "말고",
+    "user_n": 40,
+    "asst_n": 77,
+    "user_per100k": 25.9,
+    "asst_per100k": 3.7,
+    "ratio": 6.98
+  },
+  {
+    "word": "필요하면",
+    "user_n": 24,
+    "asst_n": 47,
+    "user_per100k": 15.6,
+    "asst_per100k": 2.3,
+    "ratio": 6.86
+  },
+  {
+    "word": "관점",
+    "user_n": 24,
+    "asst_n": 48,
+    "user_per100k": 15.6,
+    "asst_per100k": 2.3,
+    "ratio": 6.72
+  },
+  {
+    "word": "최적화",
+    "user_n": 11,
+    "asst_n": 22,
+    "user_per100k": 7.1,
+    "asst_per100k": 1.1,
+    "ratio": 6.72
+  },
+  {
+    "word": "나서",
+    "user_n": 12,
+    "asst_n": 25,
+    "user_per100k": 7.8,
+    "asst_per100k": 1.2,
+    "ratio": 6.45
+  },
+  {
+    "word": "실무",
+    "user_n": 12,
+    "asst_n": 26,
+    "user_per100k": 7.8,
+    "asst_per100k": 1.3,
+    "ratio": 6.2
+  },
+  {
+    "word": "정보",
+    "user_n": 35,
+    "asst_n": 76,
+    "user_per100k": 22.7,
+    "asst_per100k": 3.7,
+    "ratio": 6.19
+  },
+  {
+    "word": "양식",
+    "user_n": 11,
+    "asst_n": 24,
+    "user_per100k": 7.1,
+    "asst_per100k": 1.2,
+    "ratio": 6.16
+  },
+  {
+    "word": "서비스",
+    "user_n": 48,
+    "asst_n": 105,
+    "user_per100k": 31.1,
+    "asst_per100k": 5.1,
+    "ratio": 6.15
+  },
+  {
+    "word": "그럼",
+    "user_n": 18,
+    "asst_n": 40,
+    "user_per100k": 11.7,
+    "asst_per100k": 1.9,
+    "ratio": 6.05
+  },
+  {
+    "word": "사용",
+    "user_n": 33,
+    "asst_n": 76,
+    "user_per100k": 21.4,
+    "asst_per100k": 3.7,
+    "ratio": 5.84
+  },
+  {
+    "word": "예시",
+    "user_n": 9,
+    "asst_n": 21,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.0,
+    "ratio": 5.76
+  },
+  {
+    "word": "만들고",
+    "user_n": 30,
+    "asst_n": 71,
+    "user_per100k": 19.5,
+    "asst_per100k": 3.4,
+    "ratio": 5.68
+  },
+  {
+    "word": "첫째",
+    "user_n": 8,
+    "asst_n": 19,
+    "user_per100k": 5.2,
+    "asst_per100k": 0.9,
+    "ratio": 5.66
+  },
+  {
+    "word": "자료",
+    "user_n": 34,
+    "asst_n": 82,
+    "user_per100k": 22.0,
+    "asst_per100k": 4.0,
+    "ratio": 5.57
+  },
+  {
+    "word": "것들",
+    "user_n": 14,
+    "asst_n": 34,
+    "user_per100k": 9.1,
+    "asst_per100k": 1.6,
+    "ratio": 5.54
+  },
+  {
+    "word": "에셋",
+    "user_n": 18,
+    "asst_n": 44,
+    "user_per100k": 11.7,
+    "asst_per100k": 2.1,
+    "ratio": 5.5
+  },
+  {
+    "word": "제작",
+    "user_n": 20,
+    "asst_n": 49,
+    "user_per100k": 13.0,
+    "asst_per100k": 2.4,
+    "ratio": 5.49
+  },
+  {
+    "word": "방법",
+    "user_n": 45,
+    "asst_n": 111,
+    "user_per100k": 29.2,
+    "asst_per100k": 5.4,
+    "ratio": 5.45
+  },
+  {
+    "word": "데일리",
+    "user_n": 15,
+    "asst_n": 37,
+    "user_per100k": 9.7,
+    "asst_per100k": 1.8,
+    "ratio": 5.45
+  },
+  {
+    "word": "아키텍처",
+    "user_n": 16,
+    "asst_n": 40,
+    "user_per100k": 10.4,
+    "asst_per100k": 1.9,
+    "ratio": 5.38
+  },
+  {
+    "word": "출처",
+    "user_n": 55,
+    "asst_n": 139,
+    "user_per100k": 35.7,
+    "asst_per100k": 6.7,
+    "ratio": 5.32
+  },
+  {
+    "word": "패널",
+    "user_n": 32,
+    "asst_n": 84,
+    "user_per100k": 20.7,
+    "asst_per100k": 4.1,
+    "ratio": 5.12
+  },
+  {
+    "word": "둘째",
+    "user_n": 8,
+    "asst_n": 21,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.0,
+    "ratio": 5.12
+  },
+  {
+    "word": "분량",
+    "user_n": 8,
+    "asst_n": 21,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.0,
+    "ratio": 5.12
+  },
+  {
+    "word": "혹시",
+    "user_n": 8,
+    "asst_n": 21,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.0,
+    "ratio": 5.12
+  },
+  {
+    "word": "대표",
+    "user_n": 8,
+    "asst_n": 21,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.0,
+    "ratio": 5.12
+  },
+  {
+    "word": "모든",
+    "user_n": 45,
+    "asst_n": 120,
+    "user_per100k": 29.2,
+    "asst_per100k": 5.8,
+    "ratio": 5.04
+  },
+  {
+    "word": "정말",
+    "user_n": 9,
+    "asst_n": 24,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.2,
+    "ratio": 5.04
+  },
+  {
+    "word": "설명",
+    "user_n": 31,
+    "asst_n": 84,
+    "user_per100k": 20.1,
+    "asst_per100k": 4.1,
+    "ratio": 4.96
+  },
+  {
+    "word": "무슨",
+    "user_n": 8,
+    "asst_n": 22,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.1,
+    "ratio": 4.89
+  },
+  {
+    "word": "실명",
+    "user_n": 16,
+    "asst_n": 45,
+    "user_per100k": 10.4,
+    "asst_per100k": 2.2,
+    "ratio": 4.78
+  },
+  {
+    "word": "텐데",
+    "user_n": 8,
+    "asst_n": 23,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.1,
+    "ratio": 4.68
+  },
+  {
+    "word": "우리",
+    "user_n": 85,
+    "asst_n": 247,
+    "user_per100k": 55.1,
+    "asst_per100k": 11.9,
+    "ratio": 4.63
+  },
+  {
+    "word": "인용",
+    "user_n": 25,
+    "asst_n": 73,
+    "user_per100k": 16.2,
+    "asst_per100k": 3.5,
+    "ratio": 4.6
+  },
+  {
+    "word": "조사",
+    "user_n": 50,
+    "asst_n": 150,
+    "user_per100k": 32.4,
+    "asst_per100k": 7.2,
+    "ratio": 4.48
+  },
+  {
+    "word": "부작용",
+    "user_n": 8,
+    "asst_n": 24,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.2,
+    "ratio": 4.48
+  },
+  {
+    "word": "힌트",
+    "user_n": 8,
+    "asst_n": 24,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.2,
+    "ratio": 4.48
+  },
+  {
+    "word": "그리고",
+    "user_n": 116,
+    "asst_n": 350,
+    "user_per100k": 75.2,
+    "asst_per100k": 16.9,
+    "ratio": 4.46
+  },
+  {
+    "word": "성능",
+    "user_n": 16,
+    "asst_n": 49,
+    "user_per100k": 10.4,
+    "asst_per100k": 2.4,
+    "ratio": 4.39
+  },
+  {
+    "word": "검색",
+    "user_n": 44,
+    "asst_n": 135,
+    "user_per100k": 28.5,
+    "asst_per100k": 6.5,
+    "ratio": 4.38
+  },
+  {
+    "word": "우선",
+    "user_n": 22,
+    "asst_n": 68,
+    "user_per100k": 14.3,
+    "asst_per100k": 3.3,
+    "ratio": 4.35
+  },
+  {
+    "word": "개념",
+    "user_n": 11,
+    "asst_n": 34,
+    "user_per100k": 7.1,
+    "asst_per100k": 1.6,
+    "ratio": 4.35
+  },
+  {
+    "word": "대사",
+    "user_n": 9,
+    "asst_n": 28,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.4,
+    "ratio": 4.32
+  },
+  {
+    "word": "리뷰",
+    "user_n": 10,
+    "asst_n": 32,
+    "user_per100k": 6.5,
+    "asst_per100k": 1.5,
+    "ratio": 4.2
+  },
+  {
+    "word": "개발",
+    "user_n": 9,
+    "asst_n": 29,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.4,
+    "ratio": 4.17
+  },
+  {
+    "word": "구축",
+    "user_n": 9,
+    "asst_n": 29,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.4,
+    "ratio": 4.17
+  },
+  {
+    "word": "업데이트",
+    "user_n": 8,
+    "asst_n": 26,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.3,
+    "ratio": 4.14
+  },
+  {
+    "word": "등장",
+    "user_n": 8,
+    "asst_n": 26,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.3,
+    "ratio": 4.14
+  },
+  {
+    "word": "인터뷰",
+    "user_n": 28,
+    "asst_n": 93,
+    "user_per100k": 18.2,
+    "asst_per100k": 4.5,
+    "ratio": 4.05
+  },
+  {
+    "word": "그냥",
+    "user_n": 22,
+    "asst_n": 74,
+    "user_per100k": 14.3,
+    "asst_per100k": 3.6,
+    "ratio": 4.0
+  },
+  {
+    "word": "별도",
+    "user_n": 8,
+    "asst_n": 27,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.3,
+    "ratio": 3.98
+  },
+  {
+    "word": "힉스필드",
+    "user_n": 8,
+    "asst_n": 27,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.3,
+    "ratio": 3.98
+  },
+  {
+    "word": "영역",
+    "user_n": 24,
+    "asst_n": 82,
+    "user_per100k": 15.6,
+    "asst_per100k": 4.0,
+    "ratio": 3.93
+  },
+  {
+    "word": "언급",
+    "user_n": 9,
+    "asst_n": 31,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.5,
+    "ratio": 3.9
+  },
+  {
+    "word": "무엇",
+    "user_n": 59,
+    "asst_n": 204,
+    "user_per100k": 38.3,
+    "asst_per100k": 9.8,
+    "ratio": 3.89
+  },
+  {
+    "word": "기능",
+    "user_n": 31,
+    "asst_n": 108,
+    "user_per100k": 20.1,
+    "asst_per100k": 5.2,
+    "ratio": 3.86
+  },
+  {
+    "word": "레이아웃",
+    "user_n": 12,
+    "asst_n": 42,
+    "user_per100k": 7.8,
+    "asst_per100k": 2.0,
+    "ratio": 3.84
+  },
+  {
+    "word": "액션",
+    "user_n": 29,
+    "asst_n": 102,
+    "user_per100k": 18.8,
+    "asst_per100k": 4.9,
+    "ratio": 3.82
+  },
+  {
+    "word": "대시보드",
+    "user_n": 54,
+    "asst_n": 190,
+    "user_per100k": 35.0,
+    "asst_per100k": 9.2,
+    "ratio": 3.82
+  },
+  {
+    "word": "태스크",
+    "user_n": 19,
+    "asst_n": 67,
+    "user_per100k": 12.3,
+    "asst_per100k": 3.2,
+    "ratio": 3.81
+  },
+  {
+    "word": "경우",
+    "user_n": 15,
+    "asst_n": 53,
+    "user_per100k": 9.7,
+    "asst_per100k": 2.6,
+    "ratio": 3.8
+  },
+  {
+    "word": "나열",
+    "user_n": 9,
+    "asst_n": 32,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.5,
+    "ratio": 3.78
+  },
+  {
+    "word": "프로토타입",
+    "user_n": 9,
+    "asst_n": 32,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.5,
+    "ratio": 3.78
+  },
+  {
+    "word": "상황",
+    "user_n": 28,
+    "asst_n": 100,
+    "user_per100k": 18.2,
+    "asst_per100k": 4.8,
+    "ratio": 3.76
+  },
+  {
+    "word": "업무",
+    "user_n": 28,
+    "asst_n": 100,
+    "user_per100k": 18.2,
+    "asst_per100k": 4.8,
+    "ratio": 3.76
+  },
+  {
+    "word": "개선",
+    "user_n": 21,
+    "asst_n": 75,
+    "user_per100k": 13.6,
+    "asst_per100k": 3.6,
+    "ratio": 3.76
+  },
+  {
+    "word": "제품",
+    "user_n": 12,
+    "asst_n": 43,
+    "user_per100k": 7.8,
+    "asst_per100k": 2.1,
+    "ratio": 3.75
+  },
+  {
+    "word": "있으면",
+    "user_n": 35,
+    "asst_n": 126,
+    "user_per100k": 22.7,
+    "asst_per100k": 6.1,
+    "ratio": 3.73
+  },
+  {
+    "word": "라이브러리",
+    "user_n": 15,
+    "asst_n": 54,
+    "user_per100k": 9.7,
+    "asst_per100k": 2.6,
+    "ratio": 3.73
+  },
+  {
+    "word": "각각",
+    "user_n": 26,
+    "asst_n": 94,
+    "user_per100k": 16.9,
+    "asst_per100k": 4.5,
+    "ratio": 3.72
+  },
+  {
+    "word": "되면",
+    "user_n": 8,
+    "asst_n": 29,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.4,
+    "ratio": 3.71
+  },
+  {
+    "word": "어디",
+    "user_n": 18,
+    "asst_n": 66,
+    "user_per100k": 11.7,
+    "asst_per100k": 3.2,
+    "ratio": 3.67
+  },
+  {
+    "word": "시퀀스",
+    "user_n": 9,
+    "asst_n": 33,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.6,
+    "ratio": 3.67
+  },
+  {
+    "word": "포인트",
+    "user_n": 9,
+    "asst_n": 33,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.6,
+    "ratio": 3.67
+  },
+  {
+    "word": "작성",
+    "user_n": 39,
+    "asst_n": 143,
+    "user_per100k": 25.3,
+    "asst_per100k": 6.9,
+    "ratio": 3.67
+  },
+  {
+    "word": "여러",
+    "user_n": 15,
+    "asst_n": 55,
+    "user_per100k": 9.7,
+    "asst_per100k": 2.7,
+    "ratio": 3.67
+  },
+  {
+    "word": "표현",
+    "user_n": 12,
+    "asst_n": 44,
+    "user_per100k": 7.8,
+    "asst_per100k": 2.1,
+    "ratio": 3.67
+  },
+  {
+    "word": "콘텐츠",
+    "user_n": 38,
+    "asst_n": 140,
+    "user_per100k": 24.6,
+    "asst_per100k": 6.8,
+    "ratio": 3.65
+  },
+  {
+    "word": "딥리서치",
+    "user_n": 13,
+    "asst_n": 48,
+    "user_per100k": 8.4,
+    "asst_per100k": 2.3,
+    "ratio": 3.64
+  },
+  {
+    "word": "과정",
+    "user_n": 14,
+    "asst_n": 52,
+    "user_per100k": 9.1,
+    "asst_per100k": 2.5,
+    "ratio": 3.62
+  },
+  {
+    "word": "확인할",
+    "user_n": 9,
+    "asst_n": 34,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.6,
+    "ratio": 3.56
+  },
+  {
+    "word": "문단",
+    "user_n": 14,
+    "asst_n": 53,
+    "user_per100k": 9.1,
+    "asst_per100k": 2.6,
+    "ratio": 3.55
+  },
+  {
+    "word": "부분",
+    "user_n": 38,
+    "asst_n": 145,
+    "user_per100k": 24.6,
+    "asst_per100k": 7.0,
+    "ratio": 3.52
+  },
+  {
+    "word": "상위",
+    "user_n": 18,
+    "asst_n": 69,
+    "user_per100k": 11.7,
+    "asst_per100k": 3.3,
+    "ratio": 3.51
+  },
+  {
+    "word": "추정",
+    "user_n": 27,
+    "asst_n": 106,
+    "user_per100k": 17.5,
+    "asst_per100k": 5.1,
+    "ratio": 3.42
+  },
+  {
+    "word": "형태",
+    "user_n": 29,
+    "asst_n": 115,
+    "user_per100k": 18.8,
+    "asst_per100k": 5.5,
+    "ratio": 3.39
+  },
+  {
+    "word": "추가",
+    "user_n": 13,
+    "asst_n": 52,
+    "user_per100k": 8.4,
+    "asst_per100k": 2.5,
+    "ratio": 3.36
+  },
+  {
+    "word": "요건",
+    "user_n": 11,
+    "asst_n": 44,
+    "user_per100k": 7.1,
+    "asst_per100k": 2.1,
+    "ratio": 3.36
+  },
+  {
+    "word": "기술",
+    "user_n": 12,
+    "asst_n": 49,
+    "user_per100k": 7.8,
+    "asst_per100k": 2.4,
+    "ratio": 3.29
+  },
+  {
+    "word": "리팩토링",
+    "user_n": 10,
+    "asst_n": 41,
+    "user_per100k": 6.5,
+    "asst_per100k": 2.0,
+    "ratio": 3.28
+  },
+  {
+    "word": "개정",
+    "user_n": 9,
+    "asst_n": 37,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.8,
+    "ratio": 3.27
+  },
+  {
+    "word": "결과물",
+    "user_n": 9,
+    "asst_n": 37,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.8,
+    "ratio": 3.27
+  },
+  {
+    "word": "공간",
+    "user_n": 17,
+    "asst_n": 70,
+    "user_per100k": 11.0,
+    "asst_per100k": 3.4,
+    "ratio": 3.26
+  },
+  {
+    "word": "사항",
+    "user_n": 8,
+    "asst_n": 33,
+    "user_per100k": 5.2,
+    "asst_per100k": 1.6,
+    "ratio": 3.26
+  },
+  {
+    "word": "댓글",
+    "user_n": 18,
+    "asst_n": 75,
+    "user_per100k": 11.7,
+    "asst_per100k": 3.6,
+    "ratio": 3.23
+  },
+  {
+    "word": "라벨링",
+    "user_n": 10,
+    "asst_n": 42,
+    "user_per100k": 6.5,
+    "asst_per100k": 2.0,
+    "ratio": 3.2
+  },
+  {
+    "word": "최근",
+    "user_n": 24,
+    "asst_n": 101,
+    "user_per100k": 15.6,
+    "asst_per100k": 4.9,
+    "ratio": 3.19
+  },
+  {
+    "word": "코파일럿",
+    "user_n": 9,
+    "asst_n": 38,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.8,
+    "ratio": 3.18
+  },
+  {
+    "word": "최신",
+    "user_n": 28,
+    "asst_n": 119,
+    "user_per100k": 18.2,
+    "asst_per100k": 5.7,
+    "ratio": 3.16
+  },
+  {
+    "word": "공식",
+    "user_n": 15,
+    "asst_n": 64,
+    "user_per100k": 9.7,
+    "asst_per100k": 3.1,
+    "ratio": 3.15
+  },
+  {
+    "word": "종합",
+    "user_n": 11,
+    "asst_n": 47,
+    "user_per100k": 7.1,
+    "asst_per100k": 2.3,
+    "ratio": 3.15
+  },
+  {
+    "word": "일부",
+    "user_n": 10,
+    "asst_n": 43,
+    "user_per100k": 6.5,
+    "asst_per100k": 2.1,
+    "ratio": 3.13
+  },
+  {
+    "word": "기법",
+    "user_n": 13,
+    "asst_n": 56,
+    "user_per100k": 8.4,
+    "asst_per100k": 2.7,
+    "ratio": 3.12
+  },
+  {
+    "word": "넣고",
+    "user_n": 12,
+    "asst_n": 52,
+    "user_per100k": 7.8,
+    "asst_per100k": 2.5,
+    "ratio": 3.1
+  },
+  {
+    "word": "최소",
+    "user_n": 15,
+    "asst_n": 65,
+    "user_per100k": 9.7,
+    "asst_per100k": 3.1,
+    "ratio": 3.1
+  },
+  {
+    "word": "흐름",
+    "user_n": 15,
+    "asst_n": 66,
+    "user_per100k": 9.7,
+    "asst_per100k": 3.2,
+    "ratio": 3.06
+  },
+  {
+    "word": "특정",
+    "user_n": 12,
+    "asst_n": 53,
+    "user_per100k": 7.8,
+    "asst_per100k": 2.6,
+    "ratio": 3.04
+  },
+  {
+    "word": "수준",
+    "user_n": 9,
+    "asst_n": 40,
+    "user_per100k": 5.8,
+    "asst_per100k": 1.9,
+    "ratio": 3.02
+  }
+]
