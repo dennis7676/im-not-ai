@@ -1,0 +1,82 @@
+[
+  {
+    "author": "claude",
+    "id": "A1",
+    "genre": "검토물",
+    "change_rate": 0.123,
+    "len_before": 1184,
+    "len_after": 1028,
+    "vague_before": 0.0,
+    "vague_after": 0.0
+  },
+  {
+    "author": "claude",
+    "id": "A2",
+    "genre": "검토물",
+    "change_rate": 0.0708,
+    "len_before": 1127,
+    "len_after": 1118,
+    "vague_before": 0.0,
+    "vague_after": 0.0
+  },
+  {
+    "author": "claude",
+    "id": "B1",
+    "genre": "블로그",
+    "change_rate": 0.018,
+    "len_before": 1175,
+    "len_after": 1163,
+    "vague_before": 170.2,
+    "vague_after": 172.0
+  },
+  {
+    "author": "claude",
+    "id": "B2",
+    "genre": "블로그",
+    "change_rate": 0.0947,
+    "len_before": 1105,
+    "len_after": 1071,
+    "vague_before": 271.5,
+    "vague_after": 186.7
+  },
+  {
+    "author": "codex",
+    "id": "A1",
+    "genre": "검토물",
+    "change_rate": 0.2176,
+    "len_before": 1174,
+    "len_after": 1142,
+    "vague_before": 85.2,
+    "vague_after": 0.0
+  },
+  {
+    "author": "codex",
+    "id": "A2",
+    "genre": "검토물",
+    "change_rate": 0.1184,
+    "len_before": 1144,
+    "len_after": 1145,
+    "vague_before": 87.4,
+    "vague_after": 87.3
+  },
+  {
+    "author": "codex",
+    "id": "B1",
+    "genre": "블로그",
+    "change_rate": 0.136,
+    "len_before": 1145,
+    "len_after": 1142,
+    "vague_before": 174.7,
+    "vague_after": 87.6
+  },
+  {
+    "author": "codex",
+    "id": "B2",
+    "genre": "블로그",
+    "change_rate": 0.158,
+    "len_before": 1151,
+    "len_after": 1134,
+    "vague_before": 0.0,
+    "vague_after": 0.0
+  }
+]
