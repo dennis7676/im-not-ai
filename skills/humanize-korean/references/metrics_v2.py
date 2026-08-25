@@ -764,6 +764,83 @@ def spacing_uniformity(text: str) -> float:
         return 0.0
 
 
+# ---------------------------------------------------------------------------
+# v2.6 리듬 축 — 문장 길이의 진폭
+#
+# 기존 지표는 어절과 어휘를 재지 **문장 리듬**을 안 잰다. `spacing_uniformity` 는
+# 어절 길이이고 문장 길이가 아니다.
+#
+# 참조 자료(2026-08-25): 사용자가 "읽기 편하다"고 지목한 한국어 산문 한 권을 재보니
+# 문장 길이 변동계수 0.61, 25자 이하 22.2%, 80자 이상 10.6% 로 **양쪽 꼬리가 다
+# 두꺼웠다.** 같은 프롬프트로 뽑은 생성문은 한쪽만 두껍거나(클로드 0.55, 짧은 쪽만)
+# 아예 평평했다(코덱스 0.38, 25자 이하 3.6%).
+#
+# ⚠️ **표본이 저자 한 명, 책 한 권이다.** "사람 산문"이 아니라 그 저자를 잰 것일 수
+#    있다. baseline 셀도 임계값도 만들지 않는다 — **관측만 한다.** 기준선 스냅샷은
+#    `docs/style_reference.json`, 다른 글을 대보는 도구는 `scripts/measure_style.py`.
+
+_SENT_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
+
+_LONG_SENT = 70   # "긴 문장"의 경계
+_SHORT_SENT = 25  # "짧은 문장"의 경계
+
+
+def _sentences(text: str) -> list[str]:
+    body = _strip_markup(text)
+    return [s.strip() for s in _SENT_SPLIT_RE.split(body) if len(s.strip()) > 5]
+
+
+def sentence_length_cv(text: str) -> float:
+    """문장 길이의 변동계수(표준편차/평균). **높을수록 리듬 진폭이 크다.**
+
+    `spacing_uniformity` 와 헷갈리지 말 것 — 그쪽은 **어절** 길이이고 이쪽은 **문장**
+    길이다. 어절이 고른 글과 문장이 고른 글은 다른 현상이다.
+
+    ⚠️ 우리 코퍼스에서 미검증이다(2026-08-25). 참조값은 저자 한 명의 산문 하나뿐이다.
+    """
+    L = [len(s) for s in _sentences(text)]
+    if len(L) < 2:
+        return 0.0
+    try:
+        avg = mean(L)
+        return pstdev(L) / avg if avg else 0.0
+    except StatisticsError:
+        return 0.0
+
+
+def short_after_long_rate(text: str) -> float:
+    """긴 문장 바로 뒤에 짧은 문장이 오는 비율(0.0~1.0).
+
+    긴 문장으로 벌려 놓고 짧은 문장으로 못 박는 패턴을 센다. 참조 산문에서 0.163 이었다
+    (70자 넘는 문장 369개 중 60개 뒤에 25자 이하가 왔다).
+
+    분모는 **긴 문장의 수**이지 전체 문장이 아니다. 긴 문장이 없으면 0.0 을 돌려준다 —
+    이때의 0.0 은 "리듬이 없다"가 아니라 **"잴 대상이 없다"** 이므로 그렇게 읽지 말 것.
+
+    ⚠️ 우리 코퍼스에서 미검증이다(2026-08-25). 관측만 한다.
+    """
+    sents = _sentences(text)
+    longs = 0
+    hits = 0
+    for a, b in zip(sents, sents[1:]):
+        if len(a) >= _LONG_SENT:
+            longs += 1
+            if len(b) <= _SHORT_SENT:
+                hits += 1
+    return hits / longs if longs else 0.0
+
+
+def short_sentence_rate(text: str) -> float:
+    """25자 이하 문장의 비율(0.0~1.0). 참조 산문 0.222, 코덱스 산문 0.036.
+
+    ⚠️ 우리 코퍼스에서 미검증이다(2026-08-25). 관측만 한다.
+    """
+    L = [len(s) for s in _sentences(text)]
+    if not L:
+        return 0.0
+    return sum(1 for x in L if x <= _SHORT_SENT) / len(L)
+
+
 def interference_index(text: str) -> dict[str, Any]:
     """T1~T8 weighted interference signal — interference axis composite.
 
@@ -948,6 +1025,10 @@ def compute_all_v2(
         # antithesis_count 와 같은 취급: 진단 앵커로만 노출하고 게이트로 쓰지 않는다.
         "nominal_dominance": nominal_dominance(text),
         "spacing_uniformity": spacing_uniformity(text),
+        # v2.6 리듬 축 — baseline 셀 없음, z 는 None. 관측 전용.
+        "sentence_length_cv": sentence_length_cv(text),
+        "short_after_long_rate": short_after_long_rate(text),
+        "short_sentence_rate": short_sentence_rate(text),
     }
     interference = interference_index(text)
 

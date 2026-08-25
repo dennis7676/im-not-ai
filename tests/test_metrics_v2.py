@@ -548,6 +548,45 @@ class KatFishSignalTests(unittest.TestCase):
         self.assertIsNone(result["v2_z_scores"]["nominal_dominance"])
         self.assertIsNone(result["v2_z_scores"]["spacing_uniformity"])
 
+class RhythmAxisTests(unittest.TestCase):
+    """v2.6 — 문장 리듬 축. 임계는 걸지 않는다(표본이 저자 1명뿐)."""
+
+    FLAT = "이것은 중간 길이의 문장이고 내용을 적당히 채운다. " * 6
+    VARIED = ("짧다. "
+              "그런데 이 문장은 앞의 것보다 훨씬 길게 이어지면서 여러 절을 물고 늘어져 "
+              "읽는 사람이 숨을 한 번 고르게 만드는 종류의 문장이다. "
+              "그래서 짧다.")
+
+    def test_cv_separates_flat_from_varied(self) -> None:
+        self.assertLess(
+            metrics_v2.sentence_length_cv(self.FLAT),
+            metrics_v2.sentence_length_cv(self.VARIED),
+        )
+
+    def test_short_sentence_rate_bounds(self) -> None:
+        for text in ("", "짧다.", self.FLAT, self.VARIED):
+            v = metrics_v2.short_sentence_rate(text)
+            self.assertGreaterEqual(v, 0.0)
+            self.assertLessEqual(v, 1.0)
+
+    def test_short_after_long_needs_a_long_sentence(self) -> None:
+        """긴 문장이 없으면 0.0 이다 — '리듬 없음'이 아니라 '잴 대상 없음'."""
+        self.assertEqual(metrics_v2.short_after_long_rate("짧다. 또 짧다. 계속 짧다."), 0.0)
+        self.assertGreater(metrics_v2.short_after_long_rate(self.VARIED), 0.0)
+
+    def test_short_input_is_safe(self) -> None:
+        for text in ("", "   \n  ", "한 문장뿐이다."):
+            self.assertEqual(metrics_v2.sentence_length_cv(text), 0.0)
+
+    def test_exposed_without_baseline(self) -> None:
+        result = metrics_v2.compute_all_v2(
+            self.VARIED, baseline_path=BASELINE_PATH, baseline_v2_path=BASELINE_V2_PATH
+        )
+        for key in ("sentence_length_cv", "short_after_long_rate", "short_sentence_rate"):
+            self.assertIn(key, result["v2_metrics"])
+            self.assertIsNone(result["v2_z_scores"][key])
+
+
 
 if __name__ == "__main__":
     unittest.main()

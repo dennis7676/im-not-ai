@@ -1,0 +1,64 @@
+{
+  "captured_at": "2026-08-25",
+  "axes_status": "관측 전용 — baseline 셀도 임계값도 없다",
+  "caveat": "사람 참조가 저자 1명, 책 1권이다. 표본이 늘기 전에는 규범으로 인용하지 말 것.",
+  "samples": [
+    {
+      "label": "여행의 이유 (김영하)",
+      "kind": "human",
+      "note": "사용자가 '읽기 편하다'고 지목. 저작물이라 본문은 커밋하지 않는다.",
+      "metrics": {
+        "sentence_length_cv": 0.605,
+        "short_sentence_rate": 0.222,
+        "short_after_long_rate": 0.1626,
+        "comma_inclusion_rate": 0.2522,
+        "ending_comma_rate": 0.2091,
+        "vague_noun_rate": 36.9387,
+        "nominal_dominance": 0.8023,
+        "ending_diversity": 0.088,
+        "lexical_diversity": 0.5026,
+        "adversative": 0.0521,
+        "consecutive": 0.0198,
+        "chars": 113722
+      }
+    },
+    {
+      "label": "claude 산문 4편 (검토물2+블로그2)",
+      "kind": "generated",
+      "note": "2026-08-25 저자 불변성 실험 산출물. 프롬프트는 docs/validation_2026-08-25/prompts/",
+      "metrics": {
+        "sentence_length_cv": 0.5491,
+        "short_sentence_rate": 0.3186,
+        "short_after_long_rate": 0.4167,
+        "comma_inclusion_rate": 0.3947,
+        "ending_comma_rate": 0.4423,
+        "vague_noun_rate": 108.8613,
+        "nominal_dominance": 0.7771,
+        "ending_diversity": 0.1681,
+        "lexical_diversity": 0.758,
+        "adversative": 0.0442,
+        "consecutive": 0.0354,
+        "chars": 4597
+      }
+    },
+    {
+      "label": "codex 산문 4편 (검토물2+블로그2)",
+      "kind": "generated",
+      "note": "2026-08-25 저자 불변성 실험 산출물. 프롬프트는 docs/validation_2026-08-25/prompts/",
+      "metrics": {
+        "sentence_length_cv": 0.383,
+        "short_sentence_rate": 0.0361,
+        "short_after_long_rate": 0.05,
+        "comma_inclusion_rate": 0.494,
+        "ending_comma_rate": 0.3846,
+        "vague_noun_rate": 86.5801,
+        "nominal_dominance": 0.8293,
+        "ending_diversity": 0.1084,
+        "lexical_diversity": 0.7723,
+        "adversative": 0.0241,
+        "consecutive": 0.0602,
+        "chars": 4620
+      }
+    }
+  ]
+}
