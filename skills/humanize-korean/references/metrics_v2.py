@@ -574,7 +574,6 @@ def progressive_aspect_rate(text: str) -> float:
 #    한국어 문체론에서 이 목록을 금지어로 지목한 1차 출처는 찾지 못했으므로(A1),
 #    이 지표는 학술 근거가 아니라 **사용자 취향 규칙**이다. 등급을 낮춰 다룬다.
 #  - 명사 나열은 plainlanguage.gov 의 "3개를 넘어가면 참기 어려워진다"가 근거다(A3).
-#  - 빈 동사(light verb)는 영어 nominalization 의 한국어 대응이다(A3 4절).
 
 # 로컬 실측에서 사용자 대비 과다했던 것만 넣는다(10만자당 차이 +3 이상).
 # 사용자도 즐겨 쓰는 말(구조·부분·방식·상황)은 넣지 않는다 — 넣으면 사람 글이 걸린다.
@@ -585,10 +584,6 @@ _VAGUE_RE = re.compile(r"(?<![가-힣])(?:" + "|".join(_VAGUE_NOUNS) + r")" + _J
 # 지목 가능한 대상의 신호. Hayakawa 의 추상 사다리를 한국어로 옮기면
 # "육안·측정·이름을 댈 수 있는가"이고(A3 4절), 문자열로는 이렇게 근사한다.
 _CONCRETE_RE = re.compile(r"\d|[A-Za-z_./]{3,}|`[^`]+`|[가-힣]+님|\d+개|\d+건")
-
-_LIGHT_VERBS = ("진행하다", "실시하다", "수행하다", "실행하다", "이행하다", "전개하다")
-_LIGHT_VERB_RE = re.compile(r"(?:" + "|".join(v[:-1] for v in _LIGHT_VERBS) + r")(?:합니다|한다|해요|했|하고|하며|하는)")
-
 
 def vague_noun_rate(text: str) -> float:
     """10만자당 포괄어 빈도.
@@ -648,19 +643,6 @@ def noun_string_max(text: str) -> int:
     return longest
 
 
-def light_verb_rate(text: str) -> float:
-    """1만자당 빈 동사(진행하다·실시하다·수행하다 등). 영어 nominalization 의 한국어 대응.
-
-    ⚠️ **이 코퍼스에서는 죽은 지표다** (2026-08-25 실측): 사용자 27.7만자와 에이전트
-    85.3만자 양쪽에서 0.0 이 나왔다. 둘 다 이 어휘를 쓰지 않는다. 근거(A3 4절)는
-    유효하지만 대상이 없다 — **게이트에 쓰지 말고 관측만 한다.**
-    """
-    body = _strip_markup(text)
-    if not body:
-        return 0.0
-    return len(_LIGHT_VERB_RE.findall(body)) / len(body) * 10000
-
-
 # ---------------------------------------------------------------------------
 # v2.5 로컬 확장 — KatFishNet(ACL 2025) A등급 신호 둘
 #
@@ -673,7 +655,7 @@ def light_verb_rate(text: str) -> float:
 #    2026-08-25 에 우리 코퍼스로 쟀더니 **둘 다 방향이 반대로 나왔다**(AUC 0.275 /
 #    0.355). 왜 그런지는 **아직 모른다** — 코퍼스 화행 교란 가설을 검정했으나
 #    지지받지 못했다. baseline 셀도 임계값도 만들지 않는다 — **관측용으로만 쓴다.**
-#    `noun_string_max`·`light_verb_rate`가 외부 근거가 탄탄한데도 이 코퍼스에서
+#    `noun_string_max`가 외부 근거가 탄탄한데도 이 코퍼스에서
 #    안 갈렸던 전례가 있다. 재기 전에는 게이트로 올리지 않는다.
 #
 # ⚠️ 형태소 분석기를 쓰지 않는다(이 파일의 철칙). 아래 둘 다 **어절 말미 형태로

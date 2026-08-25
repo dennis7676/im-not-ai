@@ -13,7 +13,7 @@ SIGNALS = {
     "nominal_dominance":  (m.nominal_dominance,  "high"),
     "spacing_uniformity": (m.spacing_uniformity, "low"),    # 낮을수록 AI(기계적 균일)
     "noun_string_max":    (m.noun_string_max,    "high"),
-    "light_verb_rate":    (m.light_verb_rate,    "high"),
+    # light_verb_rate 는 이 측정 이후 제거됐다 (AUC 0.500)
 }
 
 def vals(fn, texts, idx):

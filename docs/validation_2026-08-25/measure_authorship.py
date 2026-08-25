@@ -16,7 +16,7 @@ SIG=[("vague_noun_rate",m2.vague_noun_rate),
      ("nominal_dominance",m2.nominal_dominance),
      ("spacing_uniformity",m2.spacing_uniformity),
      ("noun_string_max",m2.noun_string_max),
-     ("light_verb_rate",m2.light_verb_rate),
+     # light_verb_rate 는 2026-08-25 제거됨 (세 방법 모두 무신호)
      ("comma_inclusion_rate",m1.comma_inclusion_rate),
      ("ending_comma_rate",m1.ending_comma_rate),
      ("hanja_nominalizer_density",m1.hanja_nominalizer_density)]
