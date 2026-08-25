@@ -22,3 +22,4 @@ _workspace_prev/
 # Python
 __pycache__/
 *.pyc
+docs/validation_2026-08-25/lexicon_nouns.json
