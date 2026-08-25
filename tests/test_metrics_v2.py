@@ -471,5 +471,83 @@ class AntithesisCountTests(unittest.TestCase):
         self.assertEqual(result["v2_metrics"]["antithesis_count"], 2)
 
 
+class KatFishSignalTests(unittest.TestCase):
+    """v2.5 — nominal_dominance / spacing_uniformity.
+
+    임계값을 걸지 않는다. 우리 코퍼스에서 아직 안 쟀기 때문이다(2026-08-25).
+    여기서 고정하는 것은 **방향과 계약**뿐이다 — 값 자체가 아니다.
+    """
+
+    def test_eojeol_class(self) -> None:
+        self.assertEqual(metrics_v2._eojeol_class("정리했다"), "predicate")
+        self.assertEqual(metrics_v2._eojeol_class("확인하고"), "predicate")
+        self.assertEqual(metrics_v2._eojeol_class("빠르게"), "modifier")
+        self.assertEqual(metrics_v2._eojeol_class("회의에서"), "nominal")
+        self.assertEqual(metrics_v2._eojeol_class("담당자"), "nominal")
+        self.assertEqual(metrics_v2._eojeol_class("`path/to/x`"), "other")
+
+    def test_nominal_dominance_direction(self) -> None:
+        noun_heavy = "회의 결과 보고서 초안 검토 의견 정리 자료 배포 일정 확정"
+        verb_heavy = "모여서 이야기했고 다시 고쳤다 그리고 돌려봤는데 잘 돌았다"
+        self.assertGreater(
+            metrics_v2.nominal_dominance(noun_heavy),
+            metrics_v2.nominal_dominance(verb_heavy),
+        )
+
+    def test_nominal_dominance_bounds(self) -> None:
+        self.assertEqual(metrics_v2.nominal_dominance(""), 0.0)
+        for text in ("담당자", "정리했다", "회의에서 정리했다"):
+            value = metrics_v2.nominal_dominance(text)
+            self.assertGreaterEqual(value, 0.0)
+            self.assertLessEqual(value, 1.0)
+
+    def test_spacing_uniformity_direction(self) -> None:
+        # 같은 길이 어절만 — 기계적으로 균일하므로 변동계수가 0 에 가깝다.
+        uniform = "가나다 라마바 사아자 차카타 파하가 나다라"
+        varied = "말 그러니까 나 오늘은 조금 되돌아보게 됐다 그 짧은 한마디에"
+        self.assertLess(
+            metrics_v2.spacing_uniformity(uniform),
+            metrics_v2.spacing_uniformity(varied),
+        )
+        self.assertAlmostEqual(metrics_v2.spacing_uniformity(uniform), 0.0, places=6)
+
+    def test_spacing_uniformity_ignores_non_hangul(self) -> None:
+        """경로·코드 토큰은 길이 분포에서 빠진다 — docstring 의 계약이다."""
+        base = "회의 결과 보고서 초안"
+        with_code = base + " /Users/dennis/very/long/path/segment"
+        self.assertAlmostEqual(
+            metrics_v2.spacing_uniformity(base),
+            metrics_v2.spacing_uniformity(with_code),
+            places=6,
+        )
+
+    def test_short_input_is_safe(self) -> None:
+        for text in ("", "   \n  ", "말"):
+            self.assertEqual(metrics_v2.spacing_uniformity(text), 0.0)
+
+    def test_exposed_in_compute_all_v2(self) -> None:
+        result = metrics_v2.compute_all_v2(
+            "어제 회의에서 나온 결정 사항을 정리했다.",
+            baseline_path=BASELINE_PATH,
+            baseline_v2_path=BASELINE_V2_PATH,
+        )
+        self.assertIn("nominal_dominance", result["v2_metrics"])
+        self.assertIn("spacing_uniformity", result["v2_metrics"])
+
+    def test_no_baseline_cell_yet(self) -> None:
+        """임계 판정을 못 하게 막아 둔 상태를 계약으로 고정한다.
+
+        baseline 셀을 만드는 순간 z 가 숫자로 나오고 게이트로 쓰고 싶어진다.
+        우리 코퍼스에서 재기 전에는 None 이어야 한다.
+        """
+        result = metrics_v2.compute_all_v2(
+            "어제 회의에서 나온 결정 사항을 정리했다.",
+            baseline_path=BASELINE_PATH,
+            baseline_v2_path=BASELINE_V2_PATH,
+        )
+        self.assertIsNone(result["v2_z_scores"]["nominal_dominance"])
+        self.assertIsNone(result["v2_z_scores"]["spacing_uniformity"])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -661,6 +661,119 @@ def light_verb_rate(text: str) -> float:
     return len(_LIGHT_VERB_RE.findall(body)) / len(body) * 10000
 
 
+# ---------------------------------------------------------------------------
+# v2.5 로컬 확장 — KatFishNet(ACL 2025) A등급 신호 둘
+#
+# 출처: Shinwoo Park 외, "KatFishNet: Detecting LLM-Generated Korean Text
+# through Linguistic Feature Analysis", ACL 2025 (2025.acl-long.1030).
+# 논문이 분리 측정한 세 특징 중 쉼표는 이미 C-11(comma_*)로 구현돼 있고,
+# 나머지 둘 — 품사 다양성(명사 편중)과 띄어쓰기 균일성 — 이 여기다.
+#
+# ⚠️ **논문의 AUC(82.99 / 79.51)는 KatFish 코퍼스 숫자이지 우리 판별력이 아니다.**
+#    우리 코퍼스에서는 아직 재지 않았다(2026-08-25 시점 `/tmp/dp_corpus` 소실).
+#    baseline 셀도 임계값도 만들지 않았다 — **관측용으로만 쓴다.**
+#    `noun_string_max`·`light_verb_rate`가 외부 근거가 탄탄한데도 이 코퍼스에서
+#    안 갈렸던 전례가 있다. 재기 전에는 게이트로 올리지 않는다.
+#
+# ⚠️ 형태소 분석기를 쓰지 않는다(이 파일의 철칙). 아래 둘 다 **어절 말미 형태로
+#    근사**한 값이고 품사 태깅이 아니다. 그래서 이름도 `pos_diversity`가 아니라
+#    재는 것 그대로 붙였다.
+
+# 용언(동사·형용사)으로 끝나는 어절의 말미 신호. 종결·연결 어미를 함께 본다.
+_PREDICATE_TAIL_RE = re.compile(
+    r"(?:"
+    # 종결. `자`(담당자·사용자), `네`, `군` 은 명사 꼬리와 충돌해 뺐다
+    # — 2026-08-25 테스트가 "담당자"를 predicate 으로 잡아 드러났다.
+    r"다|요|죠|까"
+    r"|고|며|면|서|지만|는데|은데|아도|어도|아서|어서|니까|므로|도록|려고|거나"  # 연결
+    r"|았|었|겠|한다|된다|한다면|했|됐"
+    r")$"
+)
+
+# 부사·관형 수식어의 말미 신호.
+_MODIFIER_TAIL_RE = re.compile(r"(?:히|이|게|적으로|처럼|보다|같이|째|만큼|없이)$")
+
+# 어절에서 종결부호·따옴표 등을 털어내고 본체만 남긴다.
+_EOJEOL_TRIM_RE = re.compile(r"^[\(\[\"\'`~*_]+|[\)\]\"\'`~*_,.!?;:…]+$")
+
+
+def _eojeol_class(word: str) -> str:
+    """어절 하나를 말미 형태로 거칠게 분류한다.
+
+    반환값은 ``"predicate"`` / ``"modifier"`` / ``"nominal"`` / ``"other"``.
+
+    ⚠️ **형태소 분석이 아니다.** `noun_string_max`가 인라인으로 쓰던 판정
+    (조사 꼬리 + 용언 어미)을 함수로 뽑아 어휘를 넓힌 것이고, 오분류가 있다.
+    예를 들어 "빠르게"는 modifier 로 잡히지만 "높이"(명사)도 modifier 로 잡힌다.
+    관형형 어미 -는/-은/-을 은 동형 조사와 구별되지 않아 "먹는"이 nominal 로 간다 —
+    형태소 없이는 못 가르는 자리이므로 그대로 두고 여기 적어 둔다.
+    코퍼스 수준 비율을 볼 때만 쓰고 문장 단위 판정에 쓰지 않는다.
+    """
+    w = _EOJEOL_TRIM_RE.sub("", word)
+    if not w or not re.search(r"[가-힣]", w):
+        return "other"
+    # 조사를 **먼저** 본다. 순서를 뒤집으면 "회의에서"의 조사 `에서`가 연결어미
+    # `서`로 먼저 걸려 predicate 이 된다(2026-08-25 테스트가 잡았다).
+    if re.search(_JOSA + r"$", w):
+        return "nominal"
+    if _PREDICATE_TAIL_RE.search(w):
+        return "predicate"
+    if _MODIFIER_TAIL_RE.search(w):
+        return "modifier"
+    return "nominal" if re.search(r"[가-힣]$", w) else "other"
+
+
+def nominal_dominance(text: str) -> float:
+    """명사류 어절 비율(0.0~1.0). 낮은 품사 다양성 = 명사 편중의 근사값.
+
+    KatFishNet 이 "LLM 한국어는 품사 다양성이 낮다(명사 편중)"를 AUC 82.99% 로
+    보고했다. 형태소 분석기 없이 품사 다양성 자체는 못 재므로, 논문이 서술한
+    실체인 **명사 편중도**를 어절 말미 형태로 근사한다.
+
+    ⚠️ **우리 코퍼스에서 미검증이다** (2026-08-25). 82.99% 는 KatFish 숫자이고
+    우리 글에서 사용자와 에이전트가 갈리는지는 아직 안 쟀다. baseline 셀을 만들지
+    않았으므로 z 는 None 으로 나온다 — **관측만 한다.**
+    """
+    body = _strip_markup(text)
+    classes = [_eojeol_class(w) for w in body.split()]
+    counted = [c for c in classes if c != "other"]
+    if not counted:
+        return 0.0
+    return sum(1 for c in counted if c == "nominal") / len(counted)
+
+
+def spacing_uniformity(text: str) -> float:
+    """어절 길이의 변동계수(표준편차/평균). **낮을수록 기계적으로 균일하다.**
+
+    KatFishNet 이 "LLM 한국어는 띄어쓰기가 기계적으로 균일하다"를 AUC 79.51% 로
+    보고했다. 한국어 띄어쓰기 규칙이 느슨해 사람 글은 어절 길이가 들쭉날쭉한 반면
+    생성문은 고르다는 관찰이다.
+
+    측정 대상은 **한글을 포함한 어절만**이고 길이는 그 어절의 **한글 음절 수**다.
+    경로·식별자·백틱 코드 같은 비한글 어절을 넣으면 길이 분포가 통째로 흔들리는데,
+    이 코퍼스에는 그런 토큰이 흔하다(`_CONCRETE_RE` 가 그 증거다).
+
+    ⚠️ **우리 코퍼스에서 미검증이다** (2026-08-25). 79.51% 는 KatFish 숫자다.
+    임계값도 baseline 셀도 만들지 않았다 — **관측만 한다.**
+    """
+    body = _strip_markup(text)
+    lengths = [
+        len(re.findall(r"[가-힣]", w))
+        for w in body.split()
+        if re.search(r"[가-힣]", w)
+    ]
+    lengths = [n for n in lengths if n > 0]
+    if len(lengths) < 2:
+        return 0.0
+    try:
+        avg = mean(lengths)
+        if avg == 0:
+            return 0.0
+        return pstdev(lengths) / avg
+    except StatisticsError:
+        return 0.0
+
+
 def interference_index(text: str) -> dict[str, Any]:
     """T1~T8 weighted interference signal — interference axis composite.
 
@@ -841,6 +954,10 @@ def compute_all_v2(
         # C-8 대구 카운트 — 진단 앵커로만 노출. baseline placeholder라 z는
         # None이어도 무방. 판정은 before/after 전멸 비교로만 한다.
         "antithesis_count": antithesis_count(text),
+        # v2.5 KatFishNet A등급 신호 둘 — baseline 셀이 없어 z 는 None 이다.
+        # antithesis_count 와 같은 취급: 진단 앵커로만 노출하고 게이트로 쓰지 않는다.
+        "nominal_dominance": nominal_dominance(text),
+        "spacing_uniformity": spacing_uniformity(text),
     }
     interference = interference_index(text)
 
