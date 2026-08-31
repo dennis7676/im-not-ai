@@ -1033,6 +1033,7 @@ def compute_all_v2(
         # route_hint 의 light 강등 방지에만 쓴다(게이트 아님).
         "nonfinal_sentence_rate": nonfinal_sentence_rate(text),
         "genitive_dense_count": genitive_dense_count(text),
+        "register_mix_rate": register_mix_rate(text),
     }
     compression = compression_signal(text)
     interference = interference_index(text)
@@ -1134,6 +1135,14 @@ _FINITE_TAIL = set("다까요죠네군지자라오마니가랴세")
 _CONNECTIVE_TAILS = ("면서", "는데", "지만", "어서", "아서", "니까", "거나", "하고", "하며", "도록", "보다", "처럼", "대로")
 
 _HEADING_OR_LIST_RE = re.compile(r"^\s*(?:#{1,6}\s|[-*+]\s|\d+[.)]\s|\||>\s|```)")
+# 볼드 전용 줄(`**Step 3: 베이스라인 기록**`)은 마크다운 헤딩이 아니어도
+# 문서에서 헤딩 역할을 한다. 인라인 마크업을 벗기면 평문 명사구로 남아
+# 비완결 종결로 오탐된다 (2026-08-31 볼트 실코퍼스 실측).
+_BOLD_ONLY_LINE_RE = re.compile(r"^\s*\*\*[^*]+\*\*\s*:?\s*$")
+# 개조식 필드 표기(`예상 시간: 10분`, `대상: 배치 파이프라인`). 불릿 마커가
+# 없어도 산문이 아니라 라벨-값 쌍이다. 서술어가 없는 것이 정상이므로
+# 비완결 종결로 세면 안 된다 (2026-08-31 볼트 실코퍼스 실측).
+_FIELD_LINE_RE = re.compile(r"^\s*\**[^:\n]{1,12}\**\s*:\s*\S.{0,30}$")
 
 
 def _prose_sentences(text: str) -> list[str]:
@@ -1146,11 +1155,31 @@ def _prose_sentences(text: str) -> list[str]:
     # **벗겨서** 내용을 살리므로, 그걸 먼저 돌리면 개조식 줄이 산문으로
     # 둔갑한다(2026-08-31 실측: 사람이 쓴 지침 문서 3편이 nonfinal 0.56~0.71
     # 로 오탐). 원문 라인에서 먼저 걸러내고 나서 마크업을 벗긴다.
-    lines = [ln for ln in text.splitlines() if ln.strip() and not _HEADING_OR_LIST_RE.match(ln)]
+    # 코드펜스는 여는 줄만 거르면 **내부가 통과한다**. 셸 출력 예시나
+    # 리포트 샘플("=== 온톨로지 정합성 리포트 ===")이 산문 문장으로 잡혀
+    # 비완결 종결로 오탐된다 (2026-08-31 볼트 실코퍼스 실측).
+    lines: list[str] = []
+    in_fence = False
+    for ln in text.splitlines():
+        if ln.lstrip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence or not ln.strip():
+            continue
+        if (_HEADING_OR_LIST_RE.match(ln) or _BOLD_ONLY_LINE_RE.match(ln)
+                or _FIELD_LINE_RE.match(ln)):
+            continue
+        lines.append(ln)
     body = _strip_markup("\n".join(lines))
     out: list[str] = []
     for ln in lines:
-        ln = re.sub(r"`[^`]*`|\*\*|\*|__|\[([^\]]*)\]\([^)]*\)", lambda m: m.group(1) or "", ln)
+        # 백틱 코드는 지우지 않고 자리표시자로 바꾼다. 지우면
+        # "결과를 `/tmp/x.txt`에 저장" 이 "결과를 에 저장" 이 되어,
+        # 계측기가 스스로 없앤 성분을 성분 생략으로 센다
+        # (2026-08-31 볼트 실코퍼스 실측).
+        ln = re.sub(r"`[^`]+`", "코드", ln)
+        ln = re.sub(r"\[([^\]]*)\]\([^)]*\)", lambda mm: mm.group(1) or "", ln)
+        ln = re.sub(r"\*\*|\*|__", "", ln)
         for s in _SENT_SPLIT_RE.split(ln):
             s = s.strip().strip('"\'“”‘’()[]')
             if len(s) < 8 or len(s.split()) < 3:
@@ -1218,3 +1247,34 @@ def compression_signal(text: str) -> dict[str, float | int]:
         "noun_string_max": noun_string_max(text),
         "compressed": bool(n >= 4 and (nonfinal >= 0.60 or (gen / n if n else 0) >= 0.15)),
     }
+
+
+# M-7 계측 (2026-08-31 재eval) — 문서 내 종결 격식 혼재.
+# E-7 은 장르 가드로 보고문을 제외한다. 그 구멍을 M-7 이 덮고, 이 함수가 잰다.
+_REGISTER_TAILS = {
+    "합쇼": ("니다", "니까", "십시오", "ㅂ시다"),  # "ㅂ니다"는 조합형이라 완성형에 안 걸린다
+    "해요": ("어요", "아요", "에요", "예요", "해요", "지요", "네요", "군요", "죠"),
+    "한다": ("한다", "된다", "이다", "았다", "었다", "겠다", "는다", "ㄴ다", "다"),
+}
+
+
+def register_mix_rate(text: str) -> float:
+    """소수 격식 문장의 비율(0.0~1.0). 0.0 이면 격식이 하나로 통일된 상태.
+
+    판정은 문장 수 다수결이다. 관측 전용이며 게이트가 아니다 — 인용문과
+    의도적 격식 전환을 구별하지 못하기 때문이다. 그 판단은 윤문 콜이 한다.
+    """
+    counts = {k: 0 for k in _REGISTER_TAILS}
+    for s in _prose_sentences(text):
+        core = s.rstrip(".!?…·,;: \t")
+        if not core:
+            continue
+        # 합쇼와 해요를 먼저 본다. "습니다"는 "다"로도 끝나므로 순서가 판정을 가른다.
+        for name in ("합쇼", "해요", "한다"):
+            if core.endswith(_REGISTER_TAILS[name]):
+                counts[name] += 1
+                break
+    total = sum(counts.values())
+    if total < 3:
+        return 0.0
+    return round((total - max(counts.values())) / total, 4)
