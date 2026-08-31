@@ -40,9 +40,9 @@ _FOOTER = os.path.join(_REFS, "quick-rules.footer.md")
 _OUT = os.path.join(_REFS, "quick-rules.md")
 
 # ## A. 번역투 (Translation-ese) — S1~S2
-_CATEGORY_RE = re.compile(r"^## ([A-L])\.\s+(.+?)\s*$")
+_CATEGORY_RE = re.compile(r"^## ([A-M])\.\s+(.+?)\s*$")
 # ### A-1. "~에 대하여" 남발 [S1]
-_PATTERN_RE = re.compile(r"^### ([A-L]-\d+)\.\s+(.+?)\s*(?:\[([^\]]+)\])?\s*$")
+_PATTERN_RE = re.compile(r"^### ([A-M]-\d+)\.\s+(.+?)\s*(?:\[([^\]]+)\])?\s*$")
 # - _quick: true · quick_pattern: X · quick_fix: Y_
 # - _quick: false_   (false는 pattern/fix 없이 값+밑줄로 끝나는 형식도 허용)
 # `\b` 대신 명시적 경계(공백···밑줄)를 써야 `false_`를 놓치지 않는다.

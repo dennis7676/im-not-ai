@@ -206,6 +206,8 @@ def compute_route_hint(metrics_obj: dict) -> dict:
         tells += int(v2.get(key) or 0)
     chars = int(metrics_obj.get("char_count") or 0)
     risk = metrics_obj.get("risk_band", "unknown")
+    comp = metrics_obj.get("v2_compression") or {}
+    compressed = bool(comp.get("compressed"))
 
     if chars > ROUTE_HEAVY_MIN_CHARS:
         hint = "heavy"
@@ -217,6 +219,21 @@ def compute_route_hint(metrics_obj: dict) -> dict:
         reason = (
             f"risk_band high + 카운트형 티 {tells}건 — AI 슬롭 밀집, "
             f"진단 + 청킹 권장"
+        )
+    elif tells <= ROUTE_LIGHT_MAX_TELLS and risk in ("low", "medium") and compressed:
+        # M절 사각지대 방어 (v2.7, 2026-08-31 실측).
+        # `tells` 는 **있는 것**(어휘 티·피동)만 센다. M절이 잡는 과압축은
+        # 조사·어미·서술어가 **없는** 상태라 구조적으로 세지 못한다. 실측에서
+        # 전형적 과압축 보고문이 risk_score=0 · route_hint=light 로 나왔다.
+        # light 는 진단 콜을 생략하는 경로라 여기서 놓치면 그대로 나간다.
+        # 오탐 손해(진단 1콜)와 미탐 손해(최소 처리로 출고)가 비대칭이므로
+        # light 판정에만 이 조건을 건다. 임계 근거와 한계는
+        # `metrics_v2.compression_signal` docstring 참조.
+        hint = "standard"
+        reason = (
+            f"어휘 티는 {tells}건으로 적으나 과압축 신호 검출"
+            f"(비완결 종결률 {comp.get('nonfinal_rate')} · '의' 밀집 문장 "
+            f"{comp.get('genitive_dense_count')}개) — M절 복원 대상, 진단 권장"
         )
     elif tells <= ROUTE_LIGHT_MAX_TELLS and risk in ("low", "medium"):
         hint = "light"
@@ -236,6 +253,9 @@ def compute_route_hint(metrics_obj: dict) -> dict:
             "lexical_tell_count": tells,
             "risk_band": risk,
             "char_count": chars,
+            "compressed": compressed,
+            "nonfinal_rate": comp.get("nonfinal_rate"),
+            "genitive_dense_count": comp.get("genitive_dense_count"),
         },
     }
 

@@ -20,8 +20,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPTS = os.path.join(HERE, "..", "scripts")
 
 # 부피 게이트: taxonomy(74.8KB) 대비 대폭 절감이 이 파일의 존재 이유.
-# 한글 UTF-8 3바이트 특성상 71패턴 × 2줄의 물리 하한이 있어 상한 14KB.
-MAX_BYTES = 14 * 1024
+# 한글 UTF-8 3바이트 특성상 패턴당 2줄의 물리 하한이 있어 상한을 둔다.
+# fork 2026-08-31: M절 6패턴 추가로 81패턴이 되어 15.6KB → 상한 17KB.
+MAX_BYTES = 17 * 1024
 MIN_BYTES = 5 * 1024  # 지나치게 작으면 내용 소실 의심
 
 
@@ -54,7 +55,7 @@ class DiagnosisRulesBuildTests(unittest.TestCase):
         """taxonomy의 패턴 ID 전수(quick:false 문서레벨 포함)가 인덱스에 있다."""
         taxo_ids = {p["id"] for p in self.patterns}
         out_ids = set(
-            re.findall(r"^- \*\*([A-L]-\d+)\*\*", self.rendered, re.M)
+            re.findall(r"^- \*\*([A-M]-\d+)\*\*", self.rendered, re.M)
         )
         # fork: 상수 대신 하한 — upstream 71건 유실 방지 + 로컬 K절 확장 허용
         self.assertGreaterEqual(len(taxo_ids), 71)

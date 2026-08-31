@@ -1029,7 +1029,12 @@ def compute_all_v2(
         "sentence_length_cv": sentence_length_cv(text),
         "short_after_long_rate": short_after_long_rate(text),
         "short_sentence_rate": short_sentence_rate(text),
+        # v2.7 M절 과압축 축 — baseline 셀 없음, z 는 None. 관측 전용이며
+        # route_hint 의 light 강등 방지에만 쓴다(게이트 아님).
+        "nonfinal_sentence_rate": nonfinal_sentence_rate(text),
+        "genitive_dense_count": genitive_dense_count(text),
     }
+    compression = compression_signal(text)
     interference = interference_index(text)
 
     bv2 = _load_baseline_v2(baseline_v2_path)
@@ -1053,6 +1058,7 @@ def compute_all_v2(
     base["version"] = VERSION
     base["v2_metrics"] = v2_metrics
     base["v2_interference_index"] = interference
+    base["v2_compression"] = compression
     base["v2_z_scores"] = z_scores
     base["v2_baseline_warnings"] = warnings
     return base
@@ -1103,3 +1109,112 @@ compute_all = compute_all_v2  # v2.0 출력은 v1.6의 상위집합 (integration
 
 if __name__ == "__main__":
     sys.exit(_main())
+
+
+# ---------------------------------------------------------------------------
+# v2.7 로컬 확장 — M절 과압축 계측 (2026-08-31)
+#
+# A~L 의 모든 지표는 **있는 것을 센다**(어휘 티, 피동, 대구, 장식). M절이 잡는
+# 것은 조사·어미·서술어·성분이 **없는** 상태라, 기존 지표로는 구조적으로 세지
+# 못한다. 실측(2026-08-31): 전형적 과압축 보고문 3문단이 risk_score=0 ·
+# route_hint=light 로 나왔다 — 어휘 티가 하나도 없어서다. 여기 세 함수는 그
+# 사각지대만 메운다.
+#
+# ⚠️ **형태소 분석이 아니다.** 어절 말미 음절로 근사한다. baseline 셀도 임계도
+# 만들지 않는다 — route_hint 의 light 강등을 막는 용도로만 쓰고, 게이트로
+# 승격하지 않는다.
+# ---------------------------------------------------------------------------
+
+# 완결 종결로 인정하는 마지막 음절. 한국어 종결어미의 말음이며, 여기에
+# 없으면 명사형·부사구·연결어미 종결로 본다.
+_FINITE_TAIL = set("다까요죠네군지자라오마니가랴세")
+
+# 명시적 연결어미 종결 — 위 화이트리스트를 통과해도 비완결인 경우
+# ("~하지만"은 '만', "~하고"는 '고'라 이미 걸리지만 "~하니"는 '니'로 통과한다)
+_CONNECTIVE_TAILS = ("면서", "는데", "지만", "어서", "아서", "니까", "거나", "하고", "하며", "도록", "보다", "처럼", "대로")
+
+_HEADING_OR_LIST_RE = re.compile(r"^\s*(?:#{1,6}\s|[-*+]\s|\d+[.)]\s|\||>\s|```)")
+
+
+def _prose_sentences(text: str) -> list[str]:
+    """산문 문장만 반환한다. 헤딩·불릿·표·코드펜스 줄은 통째로 버린다.
+
+    M절은 산문에만 적용된다 — 개조식 항목에 서술어를 붙이면 문서가 망가진다.
+    그래서 계측도 같은 경계를 쓴다.
+    """
+    # ⚠️ 순서가 중요하다. `_strip_markup` 은 줄머리 마커(#, -, 1., >)를
+    # **벗겨서** 내용을 살리므로, 그걸 먼저 돌리면 개조식 줄이 산문으로
+    # 둔갑한다(2026-08-31 실측: 사람이 쓴 지침 문서 3편이 nonfinal 0.56~0.71
+    # 로 오탐). 원문 라인에서 먼저 걸러내고 나서 마크업을 벗긴다.
+    lines = [ln for ln in text.splitlines() if ln.strip() and not _HEADING_OR_LIST_RE.match(ln)]
+    body = _strip_markup("\n".join(lines))
+    out: list[str] = []
+    for ln in lines:
+        ln = re.sub(r"`[^`]*`|\*\*|\*|__|\[([^\]]*)\]\([^)]*\)", lambda m: m.group(1) or "", ln)
+        for s in _SENT_SPLIT_RE.split(ln):
+            s = s.strip().strip('"\'“”‘’()[]')
+            if len(s) < 8 or len(s.split()) < 3:
+                continue
+            # 서지 인용·영문 조각 제외. 한글 음절이 절반에 못 미치면 산문
+            # 문장이 아니다 (2026-08-31 실측: scholarship.md 오탐 41건이
+            # 전부 영문 저자명·연도·출판사 줄이었다).
+            hangul = sum(1 for ch in s if "가" <= ch <= "힣")
+            letters = sum(1 for ch in s if ch.isalpha())
+            if letters and hangul / letters < 0.5:
+                continue
+            out.append(s)
+    return out
+
+
+def nonfinal_sentence_rate(text: str) -> float:
+    """M-2. 서술어·종결어미 없이 끝나는 산문 문장의 비율(0.0~1.0)."""
+    sents = _prose_sentences(text)
+    if not sents:
+        return 0.0
+    bad = 0
+    for s in sents:
+        core = s.rstrip(".!?…·,;: \t")
+        if not core:
+            continue
+        last = core.split()[-1] if core.split() else core
+        if last.endswith(_CONNECTIVE_TAILS) or (last[-1] not in _FINITE_TAIL):
+            bad += 1
+    return bad / len(sents)
+
+
+def genitive_dense_count(text: str) -> int:
+    """M-4. 관형격 '~의'가 2회 이상 나오는 산문 문장의 수."""
+    n = 0
+    for s in _prose_sentences(text):
+        if len(re.findall(r"(?<=[가-힣])의(?=[\s가-힣])", s)) >= 2:
+            n += 1
+    return n
+
+
+def compression_signal(text: str) -> dict[str, float | int]:
+    """M절 합성 신호. **route_hint 의 light 강등 방지에만** 쓴다.
+
+    ⚠️ **판별력의 한계를 정직하게 적는다** (2026-08-31 실측, 표본 6편).
+    사람이 쓴 기술 지침 문서의 ``nonfinal_rate`` 가 0.20~0.58 로 넓게 퍼진다 —
+    기술 문서는 원래 명사 종결 메모가 많아서다. 인공 과압축 샘플은 0.75 였고,
+    표본이 작아 임계 0.60 은 **잠정값**이다. 그래서:
+
+    - 게이트로 승격하지 않는다. baseline 셀도 만들지 않는다.
+    - route_hint 의 **light 판정에만** 건다. 손익이 비대칭이라서다 — 오탐하면
+      진단 콜 한 번 더 도는 손해로 끝나고, 놓치면 과압축 글이 최소 파이프라인으로
+      그대로 나간다.
+    - ``genitive_rate`` 는 절대 건수가 아니라 문장 대비 비율이다. 절대값은 긴
+      문서에서 자동으로 커져 길이를 재게 된다.
+    """
+    sents = _prose_sentences(text)
+    n = len(sents)
+    nonfinal = nonfinal_sentence_rate(text)
+    gen = genitive_dense_count(text)
+    return {
+        "prose_sentence_count": n,
+        "nonfinal_rate": round(nonfinal, 4),
+        "genitive_dense_count": gen,
+        "genitive_rate": round(gen / n, 4) if n else 0.0,
+        "noun_string_max": noun_string_max(text),
+        "compressed": bool(n >= 4 and (nonfinal >= 0.60 or (gen / n if n else 0) >= 0.15)),
+    }
