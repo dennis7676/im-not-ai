@@ -1,6 +1,6 @@
 ---
 name: humanize-korean
-description: AI(ChatGPT·Claude·Gemini)가 쓴 한글 텍스트를 사람이 쓴 글처럼 윤문한다. 번역투·영어 인용 과다·기계적 병렬·관용구·피동 남용·접속사 남발·리듬 균일·이모지/불릿 과다 등 10대 카테고리 70개 AI 티 패턴을 탐지·분류해 내용은 한 글자도 건드리지 않고 문체·리듬·표현만 자연스럽게 재작성한다. 트리거 — "AI 티 없애줘", "AI 윤문", "ChatGPT 티 제거", "번역투 고쳐", "사람이 쓴 것처럼", "humanize Korean". 단순 맞춤법 교정·번역·내용 추가는 대상 아님.
+description: AI(ChatGPT·Claude·Gemini)가 쓴 한글 텍스트를 사람이 쓴 글처럼 윤문한다. 번역투·영어 인용 과다·기계적 병렬·관용구·피동 남용·접속사 남발·리듬 균일·이모지/불릿 과다 등 13대 카테고리 81개 패턴을 탐지·분류해 내용은 한 글자도 건드리지 않고 문체·리듬·표현만 자연스럽게 재작성한다. 윤문은 두 방향이다 — A~L은 과잉 수사를 덜어내고, M절은 코딩 에이전트 특유의 과압축(조사·어미 탈락, 서술어 없는 종결, 성분 생략)을 원문 근거 안에서 복원한다. 트리거 — "AI 티 없애줘", "AI 윤문", "ChatGPT 티 제거", "번역투 고쳐", "사람이 쓴 것처럼", "humanize Korean". 단순 맞춤법 교정·번역·내용 추가는 대상 아님.
 ---
 
 # Humanize Korean — Single-call Path (Codex · GitHub Copilot CLI)
@@ -20,7 +20,7 @@ description: AI(ChatGPT·Claude·Gemini)가 쓴 한글 텍스트를 사람이 �
 1. **룰북 로드**: `references/quick-rules.md`(이 SKILL.md 디렉토리 기준 상대 경로)를 읽어 S1·S2 패턴과 자체검증 체크리스트를 내재화한다.
 2. **입력 확보**: 사용자가 붙여넣은 텍스트를 원문으로 한다. 인자가 파일 경로(.txt/.md)면 그 파일을 읽는다. 한국어가 아니면 "한국어 텍스트만 처리 가능" 안내 후 종료.
 3. **장르 추정**: 첫 300자로 장르 추정(사용자 명시 시 우선).
-4. **탐지**: A~J 카테고리 패턴을 메모리에서 스캔해 (ID, span, severity, fix) 수집. Do-NOT span은 제외.
+4. **탐지**: A~M 카테고리 패턴을 메모리에서 스캔해 (A~L은 덜어내는 방향, M은 복원하는 방향 — 두 방향을 함께 본다) (ID, span, severity, fix) 수집. Do-NOT span은 제외.
 5. **윤문**: D(관용구 삭제) → A → I → G → H → F → B → C·J → E 순서로 문단 단위 처리. 변경률을 모니터링하며 50% 임박 시 후속 edit 보류.
 6. **자체검증**: quick-rules "자체검증 체크리스트" 6항 점검. 위반 항목 발견 시 해당 edit 롤백 → 윤문 부분 재실행(최대 1회).
 7. **출력**: cwd 기준 `_workspace/{run_id}/final.md` 작성(run_id = `YYYY-MM-DD-NNN`, 당일 기존 폴더 있으면 NNN+1). 본문 끝에 빈 줄 하나 두고 `<!-- HUMANIZE-SUMMARY ... -->` HTML 주석 블록 1개 추가:
@@ -41,5 +41,7 @@ description: AI(ChatGPT·Claude·Gemini)가 쓴 한글 텍스트를 사람이 �
 
 ## 참고
 - 슬림 룰북: `references/quick-rules.md` — S1·S2 핵심 패턴 + 자체검증 체크리스트
-- 분류 체계 본진: `references/ai-tell-taxonomy.md` — 10대분류 × 70 패턴 전수
+- 분류 체계 본진: `references/ai-tell-taxonomy.md` — 13대분류 × 81 패턴 전수. M절 서두에 본진 충돌 조정표
 - 윤문 처방: `references/rewriting-playbook.md` — 카테고리별 치환 레시피
+
+**M절 복원의 근거는 원문뿐이다.** 빠진 성분을 채울 근거가 원문의 다른 문장이나 앞뒤 문단에 없으면 복원하지 않고 그대로 둔다. 판별 한 문장: 넣은 말이 새 주장을 만들면 위반, 있던 주장을 읽히게 만들면 복원이다. M절은 산문 문장에만 적용하며 헤딩, 표 셀, 개조식 항목, 코드 주석, 커밋 메시지는 제외한다.
