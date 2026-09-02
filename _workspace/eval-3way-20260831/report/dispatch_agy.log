@@ -1,0 +1,4 @@
+[dispatch-verify] Run run_5050fc3208b3
+[dispatch-verify] Task task_67a9e45e7d3c
+[dispatch-verify] terminal create 가 handle 을 안 줬다 — 목록에서 worker-task_67a9e45e7d3c 를 찾는다
+terminal create 실패 (목록에도 없다)
