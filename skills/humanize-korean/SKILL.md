@@ -39,6 +39,13 @@ humanize-korean v2.4 — 경로: {light|standard|heavy} ({route_hint|사용자 �
 - M절은 **산문 문장에만** 적용한다. 헤딩, 표 셀, 개조식 목록, 캡션, 코드 주석, 커밋 메시지, 변수명, 로그 문자열은 제외 — 이 자리에서는 명사형 압축이 정답이다.
 - 본진과 방향이 역전되는 5개 지점(E-2 명사형 종결, F-4·F-5 한자어, L-1 포괄어, K절 DP 개인글, register 보존)의 우선순위는 `references/ai-tell-taxonomy.md` M절 서두의 **본진 충돌 조정표**가 정본이다.
 
+### 금지 어휘 원장 (전 경로 필수)
+
+- 정본은 [`references/banned-lexicon.md`](references/banned-lexicon.md). 포괄 명사(자리, 지점, 층, 상태, 대상 등), 대동사(진행하다, 수행하다 등), 과장 어휘, 공식형 문틀을 **밀도 조건 없이** 금지한다.
+- `quick-rules.md`(생성물)의 「금지 어휘 원장」 절에 요약이 실려 있으므로 monolith 는 추가 Read 없이도 본다. 판단이 갈리면 정본을 연다.
+- 예외는 넷뿐이다 — 뜻이 달라질 때, 고정 이름일 때, 직접 인용일 때, 관용구로 굳었을 때. 예외로 남겼으면 summary 블록에 어휘와 사유를 한 줄 적는다.
+- 근거(2026-08-26 실측): L-1 포괄어 남용은 "한 문장에 2개 이상"이라는 밀도 조건이 붙고 `_quick: false` 라 런타임 룰북에서 빠져 있었다. 그래서 "AI에게 일을 시키는 **자리**가" 라는 단독 출현이 진단, 윤문, finalize 3콜을 전부 통과했고 사용자가 육안으로 잡아냈다. 이후 L-1 을 `_quick: true` 로 올리고 원장을 신설했다.
+
 ### 경로 결정 규칙
 1. **사용자 명시가 최우선.** `--strict`·"정밀 모드"·"정밀하게"·"제대로" → **heavy 고정**. "가볍게"·"빠르게만" → **light 고정**. 명시가 있으면 route_hint는 무시한다.
 2. 명시가 없으면 shim이 `00_metrics.json`에 쓴 **`route_hint`**(`light`|`standard`|`heavy`)를 디폴트 경로로 따른다.
@@ -309,6 +316,7 @@ python3 ${SKILL_ROOT}/scripts/verify_gates.py --before "{before_path}" --after "
 
 ## 참고 자료
 
+- 금지 어휘 원장 (전 경로 필수): [`/Users/dennis_mb/.claude/skills/humanize-korean/references/banned-lexicon.md`](references/banned-lexicon.md) — AI 선호 어휘 금지 목록과 대체 후보. `quick-rules.md` 에 요약이 자동 포함된다
 - 슬림 룰북 (monolith 전용): [`${CLAUDE_SKILL_DIR}/references/quick-rules.md`](references/quick-rules.md) — S1·S2 핵심 패턴 + 자체검증 체크리스트
 - 진단 인덱스 (diagnostician 전용): [`${CLAUDE_SKILL_DIR}/references/diagnosis-rules.md`](references/diagnosis-rules.md) — 82패턴 전수 ID·정의·시그니처. `build_diagnosis_rules.py`가 taxonomy에서 자동 생성(직접 편집 금지)
 - 정량 점수 shim: `${SKILL_ROOT}/scripts/prepare_monolith_input.py` — `${CLAUDE_SKILL_DIR}/references/metrics_v2.py`(실패 시 `metrics.py` fallback) + `${CLAUDE_SKILL_DIR}/references/baseline.json` 기반 사전 점수 + `route_hint` 산출
